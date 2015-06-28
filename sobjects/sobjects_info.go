@@ -1,4 +1,4 @@
-package salesforcefsdb
+package sobjects
 
 import (
 	"errors"
@@ -9,14 +9,28 @@ import (
 type SObjectsInfo struct {
 	Desc2Prefix map[string]string
 	Prefix2Desc map[string]string
-	rx3Char     *regexp.Regexp
+	rxChar3     *regexp.Regexp
+	rxChar15    *regexp.Regexp
 }
 
 func NewSObjectsInfo() SObjectsInfo {
 	types := SObjectsInfo{}
-	types.rx3Char = regexp.MustCompile(`^([0-9A-Za-z]{3})`)
+	types.rxChar3 = regexp.MustCompile(`^([0-9A-Za-z]{3})`)
+	types.rxChar15 = regexp.MustCompile(`^([0-9A-Za-z]{15})`)
 	types.loadMaps()
 	return types
+}
+
+func (types *SObjectsInfo) GetId15ForId(id string) (string, error) {
+	if len(id) == 15 {
+		return id, nil
+	} else if len(id) == 18 {
+		rs15 := types.rxChar15.FindStringSubmatch(id)
+		if len(rs15) > 1 {
+			return rs15[1], nil
+		}
+	}
+	return "", errors.New("Sfdc Id 15 not found")
 }
 
 func (types *SObjectsInfo) GetDescriptionForId(id string) (string, error) {
@@ -31,7 +45,7 @@ func (types *SObjectsInfo) GetPrefixForId(id string) (string, error) {
 	if len(id) < 3 {
 		return "", errors.New("Sfdc id not provided")
 	}
-	rs3 := types.rx3Char.FindStringSubmatch(id)
+	rs3 := types.rxChar3.FindStringSubmatch(id)
 	if len(rs3) > 0 {
 		return rs3[1], nil
 	}
@@ -58,7 +72,10 @@ func (types *SObjectsInfo) loadMaps() {
 	prefix2desc := map[string]string{}
 	csv := types.getTypesCsv()
 	lines := strings.Split(csv, "\n")
-	for _, line := range lines {
+	for i, line := range lines {
+		if i == 0 {
+			continue
+		}
 		parts := strings.Split(line, ", ")
 		if len(parts) == 2 {
 			desc := parts[0]
