@@ -22,12 +22,16 @@ type CampaignMember struct {
 	Status             string
 }
 
-func NewCampaignMemberSetFromXml(filepath string) (CampaignMemberSet, error) {
+func NewCampaignMemberSetFromXml(bytes []byte) (CampaignMemberSet, error) {
 	set := CampaignMemberSet{}
+	err := xml.Unmarshal(bytes, &set)
+	return set, err
+}
+
+func NewCampaignMemberSetFromXmlFile(filepath string) (CampaignMemberSet, error) {
 	bytes, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		return set, err
+		return CampaignMemberSet{}, err
 	}
-	xml.Unmarshal(bytes, &set)
-	return set, nil
+	return NewCampaignMemberSetFromXml(bytes)
 }
