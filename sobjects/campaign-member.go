@@ -1,6 +1,7 @@
 package sobjects
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"io/ioutil"
 )
@@ -39,7 +40,7 @@ type CampaignMember struct {
 
 func NewCampaignMemberFromJson(bytes []byte) (CampaignMember, error) {
 	obj := CampaignMember{}
-	err := xml.Unmarshal(bytes, &obj)
+	err := json.Unmarshal(bytes, &obj)
 	return obj, err
 }
 
