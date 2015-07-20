@@ -73,7 +73,7 @@ func (fsdb *FsdbPathUtil) GetFileForId(id string, format string) (string, error)
 func (fsdb *FsdbPathUtil) GetDirForId(id string, source string, format string) (string, error) {
 	parts := []string{fsdb.BaseDir}
 	// Add SObject Desc
-	sobjectDesc, err := fsdb.SObjectsInfo.GetDescriptionForId(id)
+	sobjectDesc, err := fsdb.SObjectsInfo.GetTypeForId(id)
 	if err != nil {
 		return "", err
 	} else {

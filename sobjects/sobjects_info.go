@@ -7,8 +7,8 @@ import (
 )
 
 type SObjectsInfo struct {
-	Desc2Prefix map[string]string
-	Prefix2Desc map[string]string
+	Type2Prefix map[string]string
+	Prefix2Type map[string]string
 	rxChar3     *regexp.Regexp
 	rxChar15    *regexp.Regexp
 }
@@ -33,12 +33,12 @@ func (types *SObjectsInfo) GetId15ForId(id string) (string, error) {
 	return "", errors.New("Sfdc Id 15 not found")
 }
 
-func (types *SObjectsInfo) GetDescriptionForId(id string) (string, error) {
+func (types *SObjectsInfo) GetTypeForId(id string) (string, error) {
 	prefix, err := types.GetPrefixForId(id)
 	if err != nil {
 		return "", err
 	}
-	return types.GetDescriptionForPrefix(prefix)
+	return types.GetTypeForPrefix(prefix)
 }
 
 func (types *SObjectsInfo) GetPrefixForId(id string) (string, error) {
@@ -52,24 +52,24 @@ func (types *SObjectsInfo) GetPrefixForId(id string) (string, error) {
 	return "", errors.New("SObject prefix not found in id")
 }
 
-func (types *SObjectsInfo) GetDescriptionForPrefix(prefix string) (string, error) {
-	if desc, ok := types.Prefix2Desc[prefix]; ok {
-		return desc, nil
+func (types *SObjectsInfo) GetTypeForPrefix(prefix string) (string, error) {
+	if sobjectType, ok := types.Prefix2Type[prefix]; ok {
+		return sobjectType, nil
 	}
-	return "", errors.New("SObject description not found for prefix")
+	return "", errors.New("SObject type not found for prefix")
 }
 
-func (types *SObjectsInfo) GetPrefixForDescription(desc string) (string, error) {
-	desc = strings.ToUpper(desc)
-	if prefix, ok := types.Desc2Prefix[desc]; ok {
+func (types *SObjectsInfo) GetPrefixForType(sobjectType string) (string, error) {
+	sobjectType = strings.ToUpper(sobjectType)
+	if prefix, ok := types.Type2Prefix[sobjectType]; ok {
 		return prefix, nil
 	}
-	return "", errors.New("SObject prefix not found for description")
+	return "", errors.New("SObject prefix not found for type")
 }
 
 func (types *SObjectsInfo) loadMaps() {
-	desc2prefix := map[string]string{}
-	prefix2desc := map[string]string{}
+	type2prefix := map[string]string{}
+	prefix2type := map[string]string{}
 	csv := types.getTypesCsv()
 	lines := strings.Split(csv, "\n")
 	for i, line := range lines {
@@ -78,14 +78,14 @@ func (types *SObjectsInfo) loadMaps() {
 		}
 		parts := strings.Split(line, ", ")
 		if len(parts) == 2 {
-			desc := parts[0]
+			sobjectType := parts[0]
 			pref := parts[1]
-			desc2prefix[desc] = pref
-			prefix2desc[pref] = desc
+			type2prefix[sobjectType] = pref
+			prefix2type[pref] = sobjectType
 		}
 	}
-	types.Desc2Prefix = desc2prefix
-	types.Prefix2Desc = prefix2desc
+	types.Type2Prefix = type2prefix
+	types.Prefix2Type = prefix2type
 }
 
 func (types *SObjectsInfo) getTypesCsv() string {

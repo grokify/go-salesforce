@@ -7,12 +7,14 @@ import (
 )
 
 type CampaignMemberSet struct {
+	IdSet   IdSet
 	Records []CampaignMember `xml:"records"`
 }
 
 func NewCampaignMemberSetFromXml(bytes []byte) (CampaignMemberSet, error) {
-	set := CampaignMemberSet{}
+	set := CampaignMemberSet{IdSet: NewIdSet()}
 	err := xml.Unmarshal(bytes, &set)
+	set.Inflate()
 	return set, err
 }
 
@@ -22,6 +24,14 @@ func NewCampaignMemberSetFromXmlFile(filepath string) (CampaignMemberSet, error)
 		return CampaignMemberSet{}, err
 	}
 	return NewCampaignMemberSetFromXml(bytes)
+}
+
+func (set *CampaignMemberSet) Inflate() {
+	for _, record := range set.Records {
+		set.IdSet.AddId(record.Id)
+		set.IdSet.AddId(record.ContactId)
+		set.IdSet.AddId(record.LeadId)
+	}
 }
 
 type CampaignMember struct {
