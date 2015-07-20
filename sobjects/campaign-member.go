@@ -7,12 +7,21 @@ import (
 )
 
 type CampaignMemberSet struct {
-	IdSet   IdSet
-	Records []CampaignMember `xml:"records"`
+	IdSet      IdSet                     `xml:"-"`
+	Records    []CampaignMember          `xml:"records"`
+	RecordsMap map[string]CampaignMember `xml:"-"`
+}
+
+func NewCampaignMemberSet() CampaignMemberSet {
+	set := CampaignMemberSet{
+		IdSet:      NewIdSet(),
+		Records:    []CampaignMember{},
+		RecordsMap: map[string]CampaignMember{}}
+	return set
 }
 
 func NewCampaignMemberSetFromXml(bytes []byte) (CampaignMemberSet, error) {
-	set := CampaignMemberSet{IdSet: NewIdSet()}
+	set := NewCampaignMemberSet()
 	err := xml.Unmarshal(bytes, &set)
 	set.Inflate()
 	return set, err
@@ -28,9 +37,16 @@ func NewCampaignMemberSetFromXmlFile(filepath string) (CampaignMemberSet, error)
 
 func (set *CampaignMemberSet) Inflate() {
 	for _, record := range set.Records {
-		set.IdSet.AddId(record.Id)
-		set.IdSet.AddId(record.ContactId)
-		set.IdSet.AddId(record.LeadId)
+		if len(record.Id) > 0 {
+			set.IdSet.AddId(record.Id)
+			set.RecordsMap[record.Id] = record
+		}
+		if len(record.ContactId) > 0 {
+			set.IdSet.AddId(record.ContactId)
+		}
+		if len(record.LeadId) > 0 {
+			set.IdSet.AddId(record.LeadId)
+		}
 	}
 }
 
