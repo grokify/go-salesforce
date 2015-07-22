@@ -59,7 +59,6 @@ type CampaignMember struct {
 	FirstRespondedDate string
 	HasResponded       bool
 	LeadId             string
-	RecordTypeId       string
 	Name               string
 	Status             string
 }
