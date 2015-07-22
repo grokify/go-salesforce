@@ -11,12 +11,16 @@ import (
 )
 
 type ContactSet struct {
-	IdSet   IdSet
-	Records []Contact `xml:"records"`
+	IdSet      IdSet              `xml:"-"`
+	Records    []Contact          `xml:"records"`
+	RecordsMap map[string]Contact `xml:"-"`
 }
 
 func NewContactSet() ContactSet {
-	set := ContactSet{IdSet: NewIdSet(), Records: []Contact{}}
+	set := ContactSet{
+		IdSet:      NewIdSet(),
+		Records:    []Contact{},
+		RecordsMap: map[string]Contact{}}
 	return set
 }
 
@@ -52,8 +56,13 @@ func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
 
 func (set *ContactSet) Inflate() {
 	for _, record := range set.Records {
-		set.IdSet.AddId(record.Id)
-		set.IdSet.AddId(record.AccountId)
+		if len(record.Id) > 0 {
+			set.IdSet.AddId(record.Id)
+			set.RecordsMap[record.Id] = record
+		}
+		if len(record.AccountId) > 0 {
+			set.IdSet.AddId(record.AccountId)
+		}
 	}
 }
 
