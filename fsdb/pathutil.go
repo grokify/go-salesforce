@@ -5,8 +5,8 @@ import (
 	"path"
 	"strings"
 
+	"github.com/grokify/go-salesforce/sobjects"
 	"github.com/grokify/gotilla/io/ioutilmore"
-	"github.com/grokify/salesforce-fsdb-go/sobjects"
 )
 
 type FsdbPathUtil struct {
