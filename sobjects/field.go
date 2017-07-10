@@ -34,11 +34,12 @@ type FieldDefinition struct {
 	Updateable          bool   `json:"updateable,omitempty"`
 }
 
+/*
 type ObjectDefinitionParserHTML struct {
 	Fields []FieldDefinition
 }
 
 func (parser *ObjectDefinitionParserHTML) Parse(wbHTML string) {
 	fields := []FieldDefinition{}
-
 }
+*/

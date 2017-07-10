@@ -39,14 +39,14 @@ func renderNode(n *html.Node) string {
 	return buf.String()
 }
 
-func main() {
+func buildObjects() {
 	filename := "_parse_object_fields_workbench.html"
 	r, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}
 
-	if 1 == 1 {
+	if 1 == 0 {
 		doc, err := html.Parse(r)
 		if err != nil {
 			log.Fatal(err)
@@ -64,7 +64,6 @@ func main() {
 	}
 
 	if 1 == 0 {
-
 		z := html.NewTokenizer(r)
 
 		for {
@@ -76,5 +75,9 @@ func main() {
 			// Process the current token.
 		}
 	}
+}
+
+func main() {
+	buildObjects()
 	fmt.Println("DONE")
 }
