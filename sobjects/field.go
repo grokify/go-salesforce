@@ -1,6 +1,6 @@
 package sobjects
 
-import "golang.org/x/net/html"
+//import "golang.org/x/net/html"
 
 type FieldDefinition struct {
 	Aggregatable        bool   `json:"aggregatable,omitempty"`

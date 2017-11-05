@@ -10,7 +10,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/grokify/gotilla/net/httputil"
+	httputil "github.com/grokify/gotilla/net/httputilmore"
 )
 
 type FsdbClient struct {

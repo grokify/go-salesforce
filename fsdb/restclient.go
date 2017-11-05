@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputil"
+	httputil "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 )
 
@@ -92,6 +92,6 @@ func (cl *RestClient) GetSoqlResponse(sSoql string) string {
 		"v" + cl.Config.ConfigGeneral.ApiVersion,
 		"query"}
 	sUrl := strings.Join(aUrl, "/")
-	sUrl = urlutil.BuildUrl(sUrl, dQry)
+	sUrl = urlutil.BuildURLFromMap(sUrl, dQry)
 	return sUrl
 }
