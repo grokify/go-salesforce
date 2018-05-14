@@ -1,11 +1,10 @@
-{% func ApexEmailsTemplate(data map[string]map[string]string, emailSubjectTmpl,emailBodyTmpl,replyToEmail,senderDisplayName string) %}
-// BEGIN auto-generated Apex code (https://github.com/grokify/go-salesforce/apex)
-String emailSubjectTmpl = '{%s= EscapeSingleQuote(emailSubjectTmpl) %}';
-String emailBodyTmpl = '{%s= EscapeSingleQuote(emailBodyTmpl) %}';
-String replyToEmail = '{%s= EscapeSingleQuote(replyToEmail) %}';
-String senderDisplayName = '{%s= EscapeSingleQuote(senderDisplayName) %}';
+// BEGIN auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
+String emailSubjectTmpl = 'My Demo Subject';
+String emailBodyTmpl = '<p>This is a test email template showing basic variable substitution.</p>\n\n<ul>\n<li>Code: {{CODE_URL}}</li>\n</ul>\n\n<p>Thanks,</p>\n\n<p>{{FROM_NAME}}</p>\n';
+String replyToEmail = 'sender@example.com';
+String senderDisplayName = 'Example Sender User';
 
-Map<String,Map<String,String>> emailsData = {%s= MapStringMapStringStringToApex(data, true) %};
+Map<String,Map<String,String>> emailsData = new Map<String,Map<String,String>> {'first' => new Map<String, String> {'to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/apex','FROM_NAME' => 'grokify'}};
 
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
@@ -18,11 +17,10 @@ for (String key : emailsData.keySet()) {
   String emailBody = emailBodyTmpl;
 
   for (String emailTmplKey : emailData.keySet()) {
-    String emailTmplVal = emailData.get(emailTmplKey);
-
     Integer lastChar = emailTmplKey.charAt(emailTmplKey.length()-1);
 
     if (lastChar != 95) {
+      String emailTmplVal = emailData.get(emailTmplKey);
       emailSubject = emailSubject.replace('{{'+emailTmplKey+'}}', emailTmplVal);
       emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
     }
@@ -56,5 +54,4 @@ for (String key : emailsData.keySet()) {
 if (emails.size()>0) {
   Messaging.sendEmail(emails);
 }
-// END auto-generated Apex code (https://github.com/grokify/go-salesforce/apex)
-{% endfunc %}
+// END auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)

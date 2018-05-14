@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	bodyFile := "email.md"
+	bodyFile := "input.md"
 
 	bodyBytesMd, err := ioutil.ReadFile(bodyFile)
 	if err != nil {
