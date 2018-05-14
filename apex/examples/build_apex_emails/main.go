@@ -46,7 +46,7 @@ func main() {
 		"first": email,
 	}
 
-	subjectTmpl := "End of Life Notice: RingOut.asp and FaxOut.asp APIs"
+	subjectTmpl := "My Demo Subject"
 
 	apexCode := apex.ApexEmailsTemplate(
 		msmss, subjectTmpl, bodyHtml,
