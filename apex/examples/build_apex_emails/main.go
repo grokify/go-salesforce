@@ -18,8 +18,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	bodyHtml := apex.MarkdownToApexEmailHtml(bodyBytesMd)
-	fmt.Println(bodyHtml)
+	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
+	fmt.Println(bodyTmpl)
 
 	to := []sobjects.Contact{
 		{Email: "alice@example.com"}, {Email: "bob@example.com"}}
@@ -40,7 +40,7 @@ func main() {
 	subjectTmpl := "My Demo Subject"
 
 	apexCode := apex.ApexEmailsTemplate(
-		msmss, subjectTmpl, bodyHtml,
+		msmss, subjectTmpl, bodyTmpl,
 		"sender@example.com", "Example Sender User")
 
 	fmt.Println(apexCode)
