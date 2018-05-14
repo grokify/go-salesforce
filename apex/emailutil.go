@@ -15,8 +15,7 @@ func EscapeSingleQuote(s string) string {
 }
 
 func MarkdownToApexEmailHtml(bytes []byte) string {
-	return StringToApexStringSimple(
-		string(blackfriday.Run(bytes)))
+	return StringToApexStringSimple(string(blackfriday.Run(bytes)))
 }
 
 func StringToApexStringSimple(s string) string {
@@ -42,6 +41,5 @@ func ContactsIdOrEmail(contacts []sobjects.Contact) []string {
 }
 
 func ContactsIdOrEmailString(contacts []sobjects.Contact) string {
-	idOrEmails := ContactsIdOrEmail(contacts)
-	return strings.Join(idOrEmails, ";")
+	return strings.Join(ContactsIdOrEmail(contacts), ";")
 }
