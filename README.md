@@ -7,7 +7,7 @@
 
 This package provides a number of Salesforce helpers in Go:
 
-* `apex` provides Apex codegen code, specifically for sending email.
+* `apex` performs Apex codegen, specifically for sending email.
 * `fsdb` provides a Golang SDK and filesystem cache for Salesforce using the Salesforce REST API.
 * `sobjects` provides basic structs for Salesforce.
 * `workbench` provies a basic XML reader for https://workbench.developerforce.com
