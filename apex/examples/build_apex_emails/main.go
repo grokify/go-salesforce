@@ -22,29 +22,20 @@ func main() {
 	fmt.Println(bodyHtml)
 
 	to := []sobjects.Contact{
-		{Email: "alice@example.com"},
-		{Email: "bob@example.com"},
-	}
+		{Email: "alice@example.com"}, {Email: "bob@example.com"}}
 	cc := []sobjects.Contact{
-		{Email: "carol@example.com"},
-		{Email: "dan@example.com"},
-	}
+		{Email: "carol@example.com"}, {Email: "dan@example.com"}}
 	bcc := []sobjects.Contact{
-		{Email: "erin@example.com"},
-		{Email: "frank@example.com"},
-	}
+		{Email: "erin@example.com"}, {Email: "frank@example.com"}}
 
 	email := map[string]string{
 		"to_":       apex.ContactsIdOrEmailString(to),
 		"cc_":       apex.ContactsIdOrEmailString(cc),
 		"bcc_":      apex.ContactsIdOrEmailString(bcc),
 		"CODE_URL":  "https://github.com/grokify/go-salesforce/apex",
-		"FROM_NAME": "grokify",
-	}
+		"FROM_NAME": "grokify"}
 
-	msmss := map[string]map[string]string{
-		"first": email,
-	}
+	msmss := map[string]map[string]string{"first": email}
 
 	subjectTmpl := "My Demo Subject"
 
