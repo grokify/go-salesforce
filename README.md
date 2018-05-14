@@ -1,5 +1,6 @@
 # Go Salesforce
 
+[![Build Status][build-status-svg]][build-status-link]
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
@@ -27,4 +28,4 @@ Features, Issues, and Pull Requests are always welcome.
  [docs-godoc-svg]: https://img.shields.io/badge/docs-godoc-blue.svg
  [docs-godoc-link]: https://godoc.org/github.com/grokify/go-salesforce
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-link]: https://github.com/grokify/go-salesforce/blob/master/LICENSE.md
+ [license-link]: https://github.com/grokify/go-salesforce/blob/master/LICENSE
