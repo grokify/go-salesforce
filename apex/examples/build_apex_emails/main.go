@@ -1,0 +1,58 @@
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/grokify/go-salesforce/apex"
+	"github.com/grokify/go-salesforce/sobjects"
+)
+
+func main() {
+	bodyFile := "email.md"
+
+	bodyBytesMd, err := ioutil.ReadFile(bodyFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bodyHtml := apex.MarkdownToApexEmailHtml(bodyBytesMd)
+	fmt.Println(bodyHtml)
+
+	to := []sobjects.Contact{
+		{Email: "alice@example.com"},
+		{Email: "bob@example.com"},
+	}
+	cc := []sobjects.Contact{
+		{Email: "carol@example.com"},
+		{Email: "dan@example.com"},
+	}
+	bcc := []sobjects.Contact{
+		{Email: "erin@example.com"},
+		{Email: "frank@example.com"},
+	}
+
+	email := map[string]string{
+		"to_":       apex.ContactsIdOrEmailString(to),
+		"cc_":       apex.ContactsIdOrEmailString(cc),
+		"bcc_":      apex.ContactsIdOrEmailString(bcc),
+		"CODE_URL":  "https://github.com/grokify/go-salesforce/apex",
+		"FROM_NAME": "grokify",
+	}
+
+	msmss := map[string]map[string]string{
+		"first": email,
+	}
+
+	subjectTmpl := "End of Life Notice: RingOut.asp and FaxOut.asp APIs"
+
+	apexCode := apex.ApexEmailsTemplate(
+		msmss, subjectTmpl, bodyHtml,
+		"sender@example.com", "Example Sender User")
+
+	fmt.Println(apexCode)
+
+	fmt.Println("DONE")
+}

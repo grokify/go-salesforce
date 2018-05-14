@@ -1,0 +1,13 @@
+{% func MapStringStringToApex(data map[string]string, initialize bool) %}{% if initialize %}new Map<String, String> {% endif %}{{% code
+		l := len(data)
+		i := 0
+	%}{% for key, val := range data %}'{%s= EscapeSingleQuote(key) %}' => '{%s= EscapeSingleQuote(val) %}'{% code
+			i += 1
+		%}{% if i < l %},{% endif %}{% endfor %}}{% endfunc %}
+
+{% func MapStringMapStringStringToApex(data map[string]map[string]string, initialize bool) %}{% if initialize %}new Map<String,Map<String,String>> {% endif %}{{% code
+		l := len(data)
+		i := 0
+	%}{% for key, val := range data %}'{%s= EscapeSingleQuote(key) %}' => {%s= MapStringStringToApex(val, true) %}{% code
+			i += 1
+		%}{% if i < l %},{% endif %}{% endfor %}}{% endfunc %}
