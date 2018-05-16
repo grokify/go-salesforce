@@ -23,7 +23,7 @@ func main() {
 		"to_":       sobjects.ContactsIdOrEmailString(to, sep),
 		"cc_":       sobjects.ContactsIdOrEmailString(cc, sep),
 		"bcc_":      sobjects.ContactsIdOrEmailString(bcc, sep),
-		"CODE_URL":  "https://github.com/grokify/go-salesforce/apex",
+		"CODE_URL":  "https://github.com/grokify/go-salesforce/tree/master/apex",
 		"FROM_NAME": "grokify"}}
 
 	subjectTmpl := "My Demo Subject"
