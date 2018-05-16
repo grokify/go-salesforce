@@ -11,3 +11,8 @@
 	%}{% for key, val := range data %}'{%s= EscapeSingleQuote(key) %}' => {%s= MapStringStringToApex(val, true) %}{% code
 			i += 1
 		%}{% if i < l %},{% endif %}{% endfor %}}{% endfunc %}
+
+
+{% func SliceMapStringStringToApex(data []map[string]string, initialize bool) %}{% if initialize %}new List<Map<String,String>>{% endif %}{{% code
+		lastIdx := len(data) - 1
+	%}{% for i, val := range data %}{%s= MapStringStringToApex(val, true) %}{% if i < lastIdx %},{% endif %}{% endfor %}}{% endfunc %}

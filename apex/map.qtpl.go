@@ -150,3 +150,59 @@ func MapStringMapStringStringToApex(data map[string]map[string]string, initializ
 	return qs422016
 //line map.qtpl:13
 }
+
+//line map.qtpl:16
+func StreamSliceMapStringStringToApex(qw422016 *qt422016.Writer, data []map[string]string, initialize bool) {
+	//line map.qtpl:16
+	if initialize {
+		//line map.qtpl:16
+		qw422016.N().S(`new List<Map<String,String>>`)
+		//line map.qtpl:16
+	}
+	//line map.qtpl:16
+	qw422016.N().S(`{`)
+	//line map.qtpl:17
+	lastIdx := len(data) - 1
+
+	//line map.qtpl:18
+	for i, val := range data {
+		//line map.qtpl:18
+		qw422016.N().S(MapStringStringToApex(val, true))
+		//line map.qtpl:18
+		if i < lastIdx {
+			//line map.qtpl:18
+			qw422016.N().S(`,`)
+			//line map.qtpl:18
+		}
+		//line map.qtpl:18
+	}
+	//line map.qtpl:18
+	qw422016.N().S(`}`)
+//line map.qtpl:18
+}
+
+//line map.qtpl:18
+func WriteSliceMapStringStringToApex(qq422016 qtio422016.Writer, data []map[string]string, initialize bool) {
+	//line map.qtpl:18
+	qw422016 := qt422016.AcquireWriter(qq422016)
+	//line map.qtpl:18
+	StreamSliceMapStringStringToApex(qw422016, data, initialize)
+	//line map.qtpl:18
+	qt422016.ReleaseWriter(qw422016)
+//line map.qtpl:18
+}
+
+//line map.qtpl:18
+func SliceMapStringStringToApex(data []map[string]string, initialize bool) string {
+	//line map.qtpl:18
+	qb422016 := qt422016.AcquireByteBuffer()
+	//line map.qtpl:18
+	WriteSliceMapStringStringToApex(qb422016, data, initialize)
+	//line map.qtpl:18
+	qs422016 := string(qb422016.B)
+	//line map.qtpl:18
+	qt422016.ReleaseByteBuffer(qb422016)
+	//line map.qtpl:18
+	return qs422016
+//line map.qtpl:18
+}

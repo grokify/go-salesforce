@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"path"
 	"regexp"
+	"strings"
 
 	"github.com/grokify/gotilla/io/ioutilmore"
 	"github.com/grokify/gotilla/net/httputilmore"
@@ -121,4 +122,50 @@ func NewContactFromJsonFile(filepath string) (Contact, error) {
 		return Contact{}, err
 	}
 	return NewContactFromJson(bytes)
+}
+
+func ContactEmailOrId(contact Contact) string {
+	emailOrId := ""
+	if len(strings.TrimSpace(contact.Email)) > 0 {
+		emailOrId = contact.Email
+	} else {
+		emailOrId = contact.Id
+	}
+	return strings.TrimSpace(emailOrId)
+}
+
+func ContactsEmailOrId(contacts []Contact) []string {
+	emailOrIds := []string{}
+	for _, contact := range contacts {
+		emailOrId := ContactEmailOrId(contact)
+		if len(emailOrId) > 0 {
+			emailOrIds = append(emailOrIds, emailOrId)
+		}
+	}
+	return emailOrIds
+}
+
+func ContactIdOrEmail(contact Contact) string {
+	idOrEmail := ""
+	if len(strings.TrimSpace(contact.Id)) > 0 {
+		idOrEmail = contact.Id
+	} else {
+		idOrEmail = contact.Email
+	}
+	return strings.TrimSpace(idOrEmail)
+}
+
+func ContactsIdOrEmail(contacts []Contact) []string {
+	idOrEmails := []string{}
+	for _, contact := range contacts {
+		idOrEmail := ContactIdOrEmail(contact)
+		if len(idOrEmail) > 0 {
+			idOrEmails = append(idOrEmails, idOrEmail)
+		}
+	}
+	return idOrEmails
+}
+
+func ContactsIdOrEmailString(contacts []Contact, sep string) string {
+	return strings.Join(ContactsIdOrEmail(contacts), sep)
 }

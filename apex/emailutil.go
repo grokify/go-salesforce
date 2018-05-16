@@ -22,24 +22,53 @@ func StringToApexStringSimple(s string) string {
 	return strings.Replace(s, "\n", `\n`, -1)
 }
 
-func ContactIdOrEmail(contact sobjects.Contact) string {
-	if len(strings.TrimSpace(contact.Id)) > 0 {
-		return strings.TrimSpace(contact.Id)
-	}
-	return strings.TrimSpace(contact.Email)
+type ApexEmailInfo struct {
+	To   []sobjects.Contact
+	Cc   []sobjects.Contact
+	Bcc  []sobjects.Contact
+	Data map[string]string
 }
 
-func ContactsIdOrEmail(contacts []sobjects.Contact) []string {
-	idOrEmails := []string{}
-	for _, contact := range contacts {
-		idOrEmail := ContactIdOrEmail(contact)
-		if len(idOrEmail) > 0 {
-			idOrEmails = append(idOrEmails, idOrEmail)
-		}
-	}
-	return idOrEmails
+func NewApexEmailInfo() ApexEmailInfo {
+	return ApexEmailInfo{
+		To:   []sobjects.Contact{},
+		Cc:   []sobjects.Contact{},
+		Bcc:  []sobjects.Contact{},
+		Data: map[string]string{}}
 }
 
-func ContactsIdOrEmailString(contacts []sobjects.Contact) string {
-	return strings.Join(ContactsIdOrEmail(contacts), ";")
+func (email *ApexEmailInfo) ToMap() map[string]string {
+	data := email.Data
+	sep := ";"
+	if len(email.To) > 0 {
+		data["to_"] = sobjects.ContactsIdOrEmailString(email.To, sep)
+	}
+	if len(email.Cc) > 0 {
+		data["cc_"] = sobjects.ContactsIdOrEmailString(email.Cc, sep)
+	}
+
+	if len(email.Bcc) > 0 {
+		data["bcc_"] = sobjects.ContactsIdOrEmailString(email.Bcc, sep)
+	}
+	return data
+}
+
+type BuildApexEmailRequest struct {
+	EmailInfos      []ApexEmailInfo
+	SubjectTemplate string
+	BodyTemplate    string
+	ReplyToEmail    string
+	ReplyToName     string
+}
+
+func BuildApexEmail(req BuildApexEmailRequest) string {
+	data := []map[string]string{}
+	for _, info := range req.EmailInfos {
+		data = append(data, info.ToMap())
+	}
+	return ApexEmailsSliceTemplate(data,
+		req.SubjectTemplate,
+		req.BodyTemplate,
+		req.ReplyToEmail,
+		req.ReplyToName)
 }

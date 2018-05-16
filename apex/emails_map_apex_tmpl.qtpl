@@ -1,4 +1,4 @@
-{% func ApexEmailsTemplate(data map[string]map[string]string, emailSubjectTmpl,emailBodyTmpl,replyToEmail,senderDisplayName string) %}
+{% func ApexEmailsMapTemplate(data map[string]map[string]string, emailSubjectTmpl,emailBodyTmpl,replyToEmail,senderDisplayName string) %}
 // BEGIN auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 String emailSubjectTmpl = '{%s= EscapeSingleQuote(emailSubjectTmpl) %}';
 String emailBodyTmpl = '{%s= EscapeSingleQuote(emailBodyTmpl) %}';
