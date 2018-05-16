@@ -14,13 +14,6 @@ func main() {
 	inputBodyFile := "input.md"
 	outputApexFile := "output.apex"
 
-	bodyBytesMd, err := ioutil.ReadFile(inputBodyFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
-
 	to := []sobjects.Contact{{Email: "alice@example.com"}, {Email: "bob@example.com"}}
 	cc := []sobjects.Contact{{Email: "carol@example.com"}, {Email: "dan@example.com"}}
 	bcc := []sobjects.Contact{{Email: "erin@example.com"}, {Email: "frank@example.com"}}
@@ -34,6 +27,12 @@ func main() {
 		"FROM_NAME": "grokify"}}
 
 	subjectTmpl := "My Demo Subject"
+
+	bodyBytesMd, err := ioutil.ReadFile(inputBodyFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
 
 	apexCode := apex.ApexEmailsSliceTemplate(
 		emailsData, subjectTmpl, bodyTmpl,
