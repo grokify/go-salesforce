@@ -19,7 +19,6 @@ func main() {
 	}
 
 	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
-	fmt.Println(bodyTmpl)
 
 	to := []sobjects.Contact{{Email: "alice@example.com"}, {Email: "bob@example.com"}}
 	cc := []sobjects.Contact{{Email: "carol@example.com"}, {Email: "dan@example.com"}}
@@ -38,7 +37,6 @@ func main() {
 	apexCode := apex.ApexEmailsSliceTemplate(
 		emailsData, subjectTmpl, bodyTmpl,
 		"sender@example.com", "Example Sender User")
-	fmt.Println(apexCode)
 
 	err = ioutil.WriteFile("output.apex", []byte(apexCode), 0644)
 	if err != nil {
