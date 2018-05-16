@@ -8,6 +8,13 @@ import (
 	"gopkg.in/russross/blackfriday.v2"
 )
 
+type EmailPriorityType int
+
+const (
+	ContactIdPriority EmailPriorityType = iota
+	ContactEmailPriority
+)
+
 var rxEscapeSingleQuote = regexp.MustCompile(`(^|[^\\])'`)
 
 func EscapeSingleQuote(s string) string {
@@ -37,34 +44,46 @@ func NewApexEmailInfo() ApexEmailInfo {
 		Data: map[string]string{}}
 }
 
-func (email *ApexEmailInfo) ToMap() map[string]string {
+func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[string]string {
 	data := email.Data
 	sep := ";"
 	if len(email.To) > 0 {
-		data["to_"] = sobjects.ContactsIdOrEmailString(email.To, sep)
+		if emailPriorityType == ContactIdPriority {
+			data["to_"] = sobjects.ContactsIdOrEmailString(email.To, sep)
+		} else {
+			data["to_"] = sobjects.ContactsEmailOrIdString(email.To, sep)
+		}
 	}
 	if len(email.Cc) > 0 {
-		data["cc_"] = sobjects.ContactsIdOrEmailString(email.Cc, sep)
+		if emailPriorityType == ContactIdPriority {
+			data["cc_"] = sobjects.ContactsIdOrEmailString(email.Cc, sep)
+		} else {
+			data["cc_"] = sobjects.ContactsEmailOrIdString(email.Cc, sep)
+		}
 	}
-
 	if len(email.Bcc) > 0 {
-		data["bcc_"] = sobjects.ContactsIdOrEmailString(email.Bcc, sep)
+		if emailPriorityType == ContactIdPriority {
+			data["bcc_"] = sobjects.ContactsIdOrEmailString(email.Bcc, sep)
+		} else {
+			data["bcc_"] = sobjects.ContactsEmailOrIdString(email.Bcc, sep)
+		}
 	}
 	return data
 }
 
 type BuildApexEmailRequest struct {
-	EmailInfos      []ApexEmailInfo
-	SubjectTemplate string
-	BodyTemplate    string
-	ReplyToEmail    string
-	ReplyToName     string
+	EmailInfos            []ApexEmailInfo
+	SubjectTemplate       string
+	BodyTemplate          string
+	ReplyToEmail          string
+	ReplyToName           string
+	RecipientPriorityType EmailPriorityType
 }
 
 func BuildApexEmail(req BuildApexEmailRequest) string {
 	data := []map[string]string{}
 	for _, info := range req.EmailInfos {
-		data = append(data, info.ToMap())
+		data = append(data, info.ToMap(req.RecipientPriorityType))
 	}
 	return ApexEmailsSliceTemplate(data,
 		req.SubjectTemplate,

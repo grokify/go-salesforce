@@ -145,6 +145,10 @@ func ContactsEmailOrId(contacts []Contact) []string {
 	return emailOrIds
 }
 
+func ContactsEmailOrIdString(contacts []Contact, sep string) string {
+	return strings.Join(ContactsEmailOrId(contacts), sep)
+}
+
 func ContactIdOrEmail(contact Contact) string {
 	idOrEmail := ""
 	if len(strings.TrimSpace(contact.Id)) > 0 {
