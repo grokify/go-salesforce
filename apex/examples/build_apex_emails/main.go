@@ -11,9 +11,10 @@ import (
 )
 
 func main() {
-	bodyFile := "input.md"
+	inputBodyFile := "input.md"
+	outputApexFile := "output.apex"
 
-	bodyBytesMd, err := ioutil.ReadFile(bodyFile)
+	bodyBytesMd, err := ioutil.ReadFile(inputBodyFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,7 +39,7 @@ func main() {
 		emailsData, subjectTmpl, bodyTmpl,
 		"sender@example.com", "Example Sender User")
 
-	err = ioutil.WriteFile("output.apex", []byte(apexCode), 0644)
+	err = ioutil.WriteFile(outputApexFile, []byte(apexCode), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
