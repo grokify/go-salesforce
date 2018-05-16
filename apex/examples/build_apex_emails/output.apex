@@ -5,7 +5,7 @@ String emailBodyTmpl = '<p>This is a test email template showing basic variable 
 String replyToEmail = 'sender@example.com';
 String senderDisplayName = 'Example Sender User';
 
-List<Map<String,String>> emailsData = new List<Map<String,String>>{new Map<String, String> {'bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/apex','FROM_NAME' => 'grokify','to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com'}};
+List<Map<String,String>> emailsData = new List<Map<String,String>>{new Map<String, String> {'cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/tree/master/apex','FROM_NAME' => 'grokify','to_' => 'alice@example.com;bob@example.com'}};
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
 for (Map<String,String> emailData : emailsData) {

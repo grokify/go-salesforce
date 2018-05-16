@@ -14,29 +14,28 @@ func main() {
 	inputBodyFile := "input.md"
 	outputApexFile := "output.apex"
 
-	to := []sobjects.Contact{{Email: "alice@example.com"}, {Email: "bob@example.com"}}
-	cc := []sobjects.Contact{{Email: "carol@example.com"}, {Email: "dan@example.com"}}
-	bcc := []sobjects.Contact{{Email: "erin@example.com"}, {Email: "frank@example.com"}}
-	sep := ";"
-
-	emailsData := []map[string]string{{
-		"to_":       sobjects.ContactsIdOrEmailString(to, sep),
-		"cc_":       sobjects.ContactsIdOrEmailString(cc, sep),
-		"bcc_":      sobjects.ContactsIdOrEmailString(bcc, sep),
-		"CODE_URL":  "https://github.com/grokify/go-salesforce/tree/master/apex",
-		"FROM_NAME": "grokify"}}
-
-	subjectTmpl := "My Demo Subject"
+	emailsData := []apex.ApexEmailInfo{{
+		To:  []sobjects.Contact{{Email: "alice@example.com"}, {Email: "bob@example.com"}},
+		Cc:  []sobjects.Contact{{Email: "carol@example.com"}, {Email: "dan@example.com"}},
+		Bcc: []sobjects.Contact{{Email: "erin@example.com"}, {Email: "frank@example.com"}},
+		Data: map[string]string{
+			"CODE_URL":  "https://github.com/grokify/go-salesforce/tree/master/apex",
+			"FROM_NAME": "grokify"}}}
 
 	bodyBytesMd, err := ioutil.ReadFile(inputBodyFile)
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
 
-	apexCode := apex.ApexEmailsSliceTemplate(
-		emailsData, subjectTmpl, bodyTmpl,
-		"sender@example.com", "Example Sender User")
+	req := apex.BuildApexEmailRequest{
+		EmailInfos:            emailsData,
+		SubjectTemplate:       "My Demo Subject",
+		BodyTemplate:          apex.MarkdownToApexEmailHtml(bodyBytesMd),
+		ReplyToEmail:          "sender@example.com",
+		ReplyToName:           "Example Sender User",
+		RecipientPriorityType: apex.ContactEmailPriority}
+
+	apexCode := apex.BuildApexEmail(req)
 
 	err = ioutil.WriteFile(outputApexFile, []byte(apexCode), 0644)
 	if err != nil {
