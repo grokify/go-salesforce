@@ -26,19 +26,17 @@ func main() {
 	bcc := []sobjects.Contact{{Email: "erin@example.com"}, {Email: "frank@example.com"}}
 	sep := ";"
 
-	email := map[string]string{
+	emailsData := []map[string]string{{
 		"to_":       sobjects.ContactsIdOrEmailString(to, sep),
 		"cc_":       sobjects.ContactsIdOrEmailString(cc, sep),
 		"bcc_":      sobjects.ContactsIdOrEmailString(bcc, sep),
 		"CODE_URL":  "https://github.com/grokify/go-salesforce/apex",
-		"FROM_NAME": "grokify"}
-
-	data := []map[string]string{email}
+		"FROM_NAME": "grokify"}}
 
 	subjectTmpl := "My Demo Subject"
 
 	apexCode := apex.ApexEmailsSliceTemplate(
-		data, subjectTmpl, bodyTmpl,
+		emailsData, subjectTmpl, bodyTmpl,
 		"sender@example.com", "Example Sender User")
 	fmt.Println(apexCode)
 
