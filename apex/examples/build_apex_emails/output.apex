@@ -1,17 +1,15 @@
+
 // BEGIN auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 String emailSubjectTmpl = 'My Demo Subject';
 String emailBodyTmpl = '<p>This is a test email template showing basic variable substitution.</p>\n\n<ul>\n<li>Code: {{CODE_URL}}</li>\n</ul>\n\n<p>Thanks,</p>\n\n<p>{{FROM_NAME}}</p>\n';
 String replyToEmail = 'sender@example.com';
 String senderDisplayName = 'Example Sender User';
 
-Map<String,Map<String,String>> emailsData = new Map<String,Map<String,String>> {'first' => new Map<String, String> {'to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/apex','FROM_NAME' => 'grokify'}};
-
+List<Map<String,String>> emailsData = new List<Map<String,String>>{new Map<String, String> {'CODE_URL' => 'https://github.com/grokify/go-salesforce/apex','FROM_NAME' => 'grokify','to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com'}};
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
-for (String key : emailsData.keySet()) {
+for (Map<String,String> emailData : emailsData) {
   Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-  
-  Map<String,String> emailData = emailsData.get(key);
 
   String emailSubject = emailSubjectTmpl;
   String emailBody = emailBodyTmpl;

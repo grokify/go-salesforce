@@ -21,29 +21,31 @@ func main() {
 	bodyTmpl := apex.MarkdownToApexEmailHtml(bodyBytesMd)
 	fmt.Println(bodyTmpl)
 
-	to := []sobjects.Contact{
-		{Email: "alice@example.com"}, {Email: "bob@example.com"}}
-	cc := []sobjects.Contact{
-		{Email: "carol@example.com"}, {Email: "dan@example.com"}}
-	bcc := []sobjects.Contact{
-		{Email: "erin@example.com"}, {Email: "frank@example.com"}}
+	to := []sobjects.Contact{{Email: "alice@example.com"}, {Email: "bob@example.com"}}
+	cc := []sobjects.Contact{{Email: "carol@example.com"}, {Email: "dan@example.com"}}
+	bcc := []sobjects.Contact{{Email: "erin@example.com"}, {Email: "frank@example.com"}}
+	sep := ";"
 
 	email := map[string]string{
-		"to_":       apex.ContactsIdOrEmailString(to),
-		"cc_":       apex.ContactsIdOrEmailString(cc),
-		"bcc_":      apex.ContactsIdOrEmailString(bcc),
+		"to_":       sobjects.ContactsIdOrEmailString(to, sep),
+		"cc_":       sobjects.ContactsIdOrEmailString(cc, sep),
+		"bcc_":      sobjects.ContactsIdOrEmailString(bcc, sep),
 		"CODE_URL":  "https://github.com/grokify/go-salesforce/apex",
 		"FROM_NAME": "grokify"}
 
-	msmss := map[string]map[string]string{"first": email}
+	data := []map[string]string{email}
 
 	subjectTmpl := "My Demo Subject"
 
-	apexCode := apex.ApexEmailsTemplate(
-		msmss, subjectTmpl, bodyTmpl,
+	apexCode := apex.ApexEmailsSliceTemplate(
+		data, subjectTmpl, bodyTmpl,
 		"sender@example.com", "Example Sender User")
-
 	fmt.Println(apexCode)
+
+	err = ioutil.WriteFile("output.apex", []byte(apexCode), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println("DONE")
 }
