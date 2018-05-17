@@ -1,10 +1,14 @@
 # Apex Codegen for Sending Email
 
-Sending email using Salesforce can be useful in the following scenarios:
+Salesfore supports sending email from its system. You can do this programmatically or via the UI.
 
-* You have access to Salesforce
-* You want to send from your email address in Salesforce
-* You have access to execute Apex code, e.g. via [Developer Workbench](https://workbench.developerforce.com/)
+Some benefits of using Apex to send email with Salesforce:
+
+* You don't need to set up a separate MX record as Salesforce can send as your user's email address.
+* You can customize email by programmatically creating email
+* You can send email via [Developer Workbench](https://workbench.developerforce.com/)
+* Emails can be automatically attached to Salesforce Contacts
+* Emails do not count towards quota if you use TargetObjectId
 
 This program allows you to auto-generate Apex code using Go. This project builds Apex code that can send HTML email via Salesforce `Messaging.SingleEmailMessage` and `Messaging.sendEmail(emails)`. It has the following features:
 
