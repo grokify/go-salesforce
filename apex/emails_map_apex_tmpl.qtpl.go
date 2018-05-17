@@ -42,17 +42,16 @@ String senderDisplayName = '`)
 	qw422016.N().S(EscapeSingleQuote(senderDisplayName))
 	//line emails_map_apex_tmpl.qtpl:6
 	qw422016.N().S(`';
-
 Map<String,Map<String,String>> emailsData = `)
-	//line emails_map_apex_tmpl.qtpl:8
+	//line emails_map_apex_tmpl.qtpl:7
 	qw422016.N().S(MapStringMapStringStringToApex(data, true))
-	//line emails_map_apex_tmpl.qtpl:8
+	//line emails_map_apex_tmpl.qtpl:7
 	qw422016.N().S(`;
 
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
 for (String key : emailsData.keySet()) {
-  Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+  Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
   
   Map<String,String> emailData = emailsData.get(key);
 
@@ -68,8 +67,6 @@ for (String key : emailsData.keySet()) {
       emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
     }
   }
-
-  Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
   String sendTo = emailData.get('to_');
   if (string.isNotBlank(sendTo)) {
@@ -99,31 +96,31 @@ if (emails.size()>0) {
 }
 // END auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 `)
-//line emails_map_apex_tmpl.qtpl:59
+//line emails_map_apex_tmpl.qtpl:56
 }
 
-//line emails_map_apex_tmpl.qtpl:59
+//line emails_map_apex_tmpl.qtpl:56
 func WriteApexEmailsMapTemplate(qq422016 qtio422016.Writer, data map[string]map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) {
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	qw422016 := qt422016.AcquireWriter(qq422016)
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	StreamApexEmailsMapTemplate(qw422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	qt422016.ReleaseWriter(qw422016)
-//line emails_map_apex_tmpl.qtpl:59
+//line emails_map_apex_tmpl.qtpl:56
 }
 
-//line emails_map_apex_tmpl.qtpl:59
+//line emails_map_apex_tmpl.qtpl:56
 func ApexEmailsMapTemplate(data map[string]map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) string {
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	qb422016 := qt422016.AcquireByteBuffer()
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	WriteApexEmailsMapTemplate(qb422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	qs422016 := string(qb422016.B)
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	qt422016.ReleaseByteBuffer(qb422016)
-	//line emails_map_apex_tmpl.qtpl:59
+	//line emails_map_apex_tmpl.qtpl:56
 	return qs422016
-//line emails_map_apex_tmpl.qtpl:59
+//line emails_map_apex_tmpl.qtpl:56
 }

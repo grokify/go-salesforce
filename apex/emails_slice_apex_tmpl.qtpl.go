@@ -42,48 +42,53 @@ String senderDisplayName = '`)
 	qw422016.N().S(EscapeSingleQuote(senderDisplayName))
 	//line emails_slice_apex_tmpl.qtpl:6
 	qw422016.N().S(`';
-
 List<Map<String,String>> emailsData = `)
-	//line emails_slice_apex_tmpl.qtpl:8
+	//line emails_slice_apex_tmpl.qtpl:7
 	qw422016.N().S(SliceMapStringStringToApex(data, true))
-	//line emails_slice_apex_tmpl.qtpl:8
+	//line emails_slice_apex_tmpl.qtpl:7
 	qw422016.N().S(`;
+
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
 for (Map<String,String> emailData : emailsData) {
-  Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-
-  String emailSubject = emailSubjectTmpl;
-  String emailBody = emailBodyTmpl;
-
-  for (String emailTmplKey : emailData.keySet()) {
-    Integer lastChar = emailTmplKey.charAt(emailTmplKey.length()-1);
-
-    if (lastChar != 95) {
-      String emailTmplVal = emailData.get(emailTmplKey);
-      emailSubject = emailSubject.replace('{{'+emailTmplKey+'}}', emailTmplVal);
-      emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
-    }
-  }
-
   Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+  Boolean hasRecipients = false;
 
   String sendTo = emailData.get('to_');
   if (string.isNotBlank(sendTo)) {
     email.setToAddresses(sendTo.split(';'));
-    String sendCc = emailData.get('cc_');
-    if (string.isNotBlank(sendCc)) {
-      email.setCcAddresses(sendCc.split(';'));
-    }
-    String sendBcc = emailData.get('bcc_');
-    if (string.isNotBlank(sendBcc)) {
-      email.setBccAddresses(sendBcc.split(';'));
-    }
+    hasRecipients = true;
+  }
+  String sendCc = emailData.get('cc_');
+  if (string.isNotBlank(sendCc)) {
+    email.setCcAddresses(sendCc.split(';'));
+    hasRecipients = true;
+  }
+  String sendBcc = emailData.get('bcc_');
+  if (string.isNotBlank(sendBcc)) {
+    email.setBccAddresses(sendBcc.split(';'));
+    hasRecipients = true;
+  }
+
+  if (hasRecipients) {
     if (string.isNotBlank(replyToEmail)) {
       email.setReplyTo(replyToEmail);
     }
     if (string.isNotBlank(senderDisplayName)) {
       email.setSenderDisplayName(senderDisplayName);    
+    }
+
+    String emailSubject = emailSubjectTmpl;
+    String emailBody = emailBodyTmpl;
+
+    for (String emailTmplKey : emailData.keySet()) {
+      Integer lastChar = emailTmplKey.charAt(emailTmplKey.length()-1);
+
+      if (lastChar != 95) {
+        String emailTmplVal = emailData.get(emailTmplKey);
+        emailSubject = emailSubject.replace('{{'+emailTmplKey+'}}', emailTmplVal);
+        emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
+      }
     }
     email.setSubject(emailSubject);
     email.setHtmlBody(emailBody);
@@ -96,31 +101,31 @@ if (emails.size()>0) {
 }
 // END auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 `)
-//line emails_slice_apex_tmpl.qtpl:56
+//line emails_slice_apex_tmpl.qtpl:61
 }
 
-//line emails_slice_apex_tmpl.qtpl:56
+//line emails_slice_apex_tmpl.qtpl:61
 func WriteApexEmailsSliceTemplate(qq422016 qtio422016.Writer, data []map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) {
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	qw422016 := qt422016.AcquireWriter(qq422016)
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	StreamApexEmailsSliceTemplate(qw422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	qt422016.ReleaseWriter(qw422016)
-//line emails_slice_apex_tmpl.qtpl:56
+//line emails_slice_apex_tmpl.qtpl:61
 }
 
-//line emails_slice_apex_tmpl.qtpl:56
+//line emails_slice_apex_tmpl.qtpl:61
 func ApexEmailsSliceTemplate(data []map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) string {
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	qb422016 := qt422016.AcquireByteBuffer()
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	WriteApexEmailsSliceTemplate(qb422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	qs422016 := string(qb422016.B)
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	qt422016.ReleaseByteBuffer(qb422016)
-	//line emails_slice_apex_tmpl.qtpl:56
+	//line emails_slice_apex_tmpl.qtpl:61
 	return qs422016
-//line emails_slice_apex_tmpl.qtpl:56
+//line emails_slice_apex_tmpl.qtpl:61
 }
