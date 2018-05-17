@@ -54,6 +54,11 @@ for (Map<String,String> emailData : emailsData) {
   Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
   Boolean hasRecipients = false;
 
+  String targetObjectId = emailData.get('targetobjectid_');
+  if (string.isNotBlank(targetObjectId)) {
+    email.setTargetObjectId(targetObjectId);
+    hasRecipients = true;
+  }
   String sendTo = emailData.get('to_');
   if (string.isNotBlank(sendTo)) {
     email.setToAddresses(sendTo.split(';'));
@@ -101,31 +106,31 @@ if (emails.size()>0) {
 }
 // END auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 `)
-//line emails_slice_apex_tmpl.qtpl:61
+//line emails_slice_apex_tmpl.qtpl:66
 }
 
-//line emails_slice_apex_tmpl.qtpl:61
+//line emails_slice_apex_tmpl.qtpl:66
 func WriteApexEmailsSliceTemplate(qq422016 qtio422016.Writer, data []map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) {
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	qw422016 := qt422016.AcquireWriter(qq422016)
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	StreamApexEmailsSliceTemplate(qw422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	qt422016.ReleaseWriter(qw422016)
-//line emails_slice_apex_tmpl.qtpl:61
+//line emails_slice_apex_tmpl.qtpl:66
 }
 
-//line emails_slice_apex_tmpl.qtpl:61
+//line emails_slice_apex_tmpl.qtpl:66
 func ApexEmailsSliceTemplate(data []map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) string {
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	qb422016 := qt422016.AcquireByteBuffer()
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	WriteApexEmailsSliceTemplate(qb422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	qs422016 := string(qb422016.B)
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	qt422016.ReleaseByteBuffer(qb422016)
-	//line emails_slice_apex_tmpl.qtpl:61
+	//line emails_slice_apex_tmpl.qtpl:66
 	return qs422016
-//line emails_slice_apex_tmpl.qtpl:61
+//line emails_slice_apex_tmpl.qtpl:66
 }

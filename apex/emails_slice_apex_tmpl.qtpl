@@ -12,6 +12,11 @@ for (Map<String,String> emailData : emailsData) {
   Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
   Boolean hasRecipients = false;
 
+  String targetObjectId = emailData.get('targetobjectid_');
+  if (string.isNotBlank(targetObjectId)) {
+    email.setTargetObjectId(targetObjectId);
+    hasRecipients = true;
+  }
   String sendTo = emailData.get('to_');
   if (string.isNotBlank(sendTo)) {
     email.setToAddresses(sendTo.split(';'));

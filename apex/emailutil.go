@@ -17,10 +17,11 @@ const (
 )
 
 const (
-	To_  = "to_"
-	Cc_  = "cc_"
-	Bcc_ = "bcc_"
-	Sep  = ";"
+	To_             = "to_"
+	Cc_             = "cc_"
+	Bcc_            = "bcc_"
+	TargetObjectId_ = "targetobjectid_"
+	Sep             = ";"
 )
 
 var rxEscapeSingleQuote = regexp.MustCompile(`(^|[^\\])'`)
@@ -79,7 +80,7 @@ func mergeContacts(raw string, contacts []sobjects.Contact, emailPriorityType Em
 			emailAddrsSeen[emailAddr] = 1
 		}
 	}
-	return strings.Join(emailAddrsCanonical, sep)
+	return strings.TrimSpace(strings.Join(emailAddrsCanonical, sep))
 }
 
 func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[string]string {
@@ -87,6 +88,10 @@ func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[strin
 	data[To_] = mergeContacts(mu.MapSSValOrEmpty(data, To_), email.To, emailPriorityType, Sep)
 	data[Cc_] = mergeContacts(mu.MapSSValOrEmpty(data, Cc_), email.Cc, emailPriorityType, Sep)
 	data[Bcc_] = mergeContacts(mu.MapSSValOrEmpty(data, Bcc_), email.Bcc, emailPriorityType, Sep)
+	if len(data[To_]) > 0 && strings.Index(data[To_], "@") == -1 && strings.Index(data[To_], Sep) == -1 {
+		data[TargetObjectId_] = data[To_]
+		data[To_] = ""
+	}
 	return data
 }
 

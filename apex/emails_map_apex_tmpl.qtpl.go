@@ -51,39 +51,46 @@ Map<String,Map<String,String>> emailsData = `)
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
 for (String key : emailsData.keySet()) {
-  Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-  
   Map<String,String> emailData = emailsData.get(key);
 
-  String emailSubject = emailSubjectTmpl;
-  String emailBody = emailBodyTmpl;
-
-  for (String emailTmplKey : emailData.keySet()) {
-    Integer lastChar = emailTmplKey.charAt(emailTmplKey.length()-1);
-
-    if (lastChar != 95) {
-      String emailTmplVal = emailData.get(emailTmplKey);
-      emailSubject = emailSubject.replace('{{'+emailTmplKey+'}}', emailTmplVal);
-      emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
-    }
-  }
+  Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+  Boolean hasRecipients = false;
 
   String sendTo = emailData.get('to_');
   if (string.isNotBlank(sendTo)) {
     email.setToAddresses(sendTo.split(';'));
-    String sendCc = emailData.get('cc_');
-    if (string.isNotBlank(sendCc)) {
-      email.setCcAddresses(sendCc.split(';'));
-    }
-    String sendBcc = emailData.get('bcc_');
-    if (string.isNotBlank(sendBcc)) {
-      email.setBccAddresses(sendBcc.split(';'));
-    }
+    hasRecipients = true;
+  }
+  String sendCc = emailData.get('cc_');
+  if (string.isNotBlank(sendCc)) {
+    email.setCcAddresses(sendCc.split(';'));
+    hasRecipients = true;
+  }
+  String sendBcc = emailData.get('bcc_');
+  if (string.isNotBlank(sendBcc)) {
+    email.setBccAddresses(sendBcc.split(';'));
+    hasRecipients = true;
+  }
+
+  if (hasRecipients) {
     if (string.isNotBlank(replyToEmail)) {
       email.setReplyTo(replyToEmail);
     }
     if (string.isNotBlank(senderDisplayName)) {
       email.setSenderDisplayName(senderDisplayName);    
+    }
+
+    String emailSubject = emailSubjectTmpl;
+    String emailBody = emailBodyTmpl;
+
+    for (String emailTmplKey : emailData.keySet()) {
+      Integer lastChar = emailTmplKey.charAt(emailTmplKey.length()-1);
+
+      if (lastChar != 95) {
+        String emailTmplVal = emailData.get(emailTmplKey);
+        emailSubject = emailSubject.replace('{{'+emailTmplKey+'}}', emailTmplVal);
+        emailBody = emailBody.replace('{{'+emailTmplKey+'}}', emailTmplVal);
+      }
     }
     email.setSubject(emailSubject);
     email.setHtmlBody(emailBody);
@@ -96,31 +103,31 @@ if (emails.size()>0) {
 }
 // END auto-generated Apex code (https://github.com/grokify/go-salesforce/tree/master/apex)
 `)
-//line emails_map_apex_tmpl.qtpl:56
+//line emails_map_apex_tmpl.qtpl:63
 }
 
-//line emails_map_apex_tmpl.qtpl:56
+//line emails_map_apex_tmpl.qtpl:63
 func WriteApexEmailsMapTemplate(qq422016 qtio422016.Writer, data map[string]map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) {
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	qw422016 := qt422016.AcquireWriter(qq422016)
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	StreamApexEmailsMapTemplate(qw422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	qt422016.ReleaseWriter(qw422016)
-//line emails_map_apex_tmpl.qtpl:56
+//line emails_map_apex_tmpl.qtpl:63
 }
 
-//line emails_map_apex_tmpl.qtpl:56
+//line emails_map_apex_tmpl.qtpl:63
 func ApexEmailsMapTemplate(data map[string]map[string]string, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName string) string {
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	qb422016 := qt422016.AcquireByteBuffer()
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	WriteApexEmailsMapTemplate(qb422016, data, emailSubjectTmpl, emailBodyTmpl, replyToEmail, senderDisplayName)
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	qs422016 := string(qb422016.B)
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	qt422016.ReleaseByteBuffer(qb422016)
-	//line emails_map_apex_tmpl.qtpl:56
+	//line emails_map_apex_tmpl.qtpl:63
 	return qs422016
-//line emails_map_apex_tmpl.qtpl:56
+//line emails_map_apex_tmpl.qtpl:63
 }
