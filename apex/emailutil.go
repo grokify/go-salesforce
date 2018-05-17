@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-salesforce/sobjects"
+	mu "github.com/grokify/gotilla/type/maputil"
 	"gopkg.in/russross/blackfriday.v2"
 )
 
@@ -13,6 +14,13 @@ type EmailPriorityType int
 const (
 	ContactIdPriority EmailPriorityType = iota
 	ContactEmailPriority
+)
+
+const (
+	To_  = "to_"
+	Cc_  = "cc_"
+	Bcc_ = "bcc_"
+	Sep  = ";"
 )
 
 var rxEscapeSingleQuote = regexp.MustCompile(`(^|[^\\])'`)
@@ -44,30 +52,41 @@ func NewApexEmailInfo() ApexEmailInfo {
 		Data: map[string]string{}}
 }
 
+func mergeContacts(raw string, contacts []sobjects.Contact, emailPriorityType EmailPriorityType, sep string) string {
+	emailAddrs := []string{}
+
+	raw = strings.TrimSpace(raw)
+	if len(raw) > 0 {
+		emailAddrs = append(emailAddrs, strings.Split(raw, sep)...)
+	}
+
+	if emailPriorityType == ContactIdPriority {
+		emailAddrs = append(emailAddrs, sobjects.ContactsIdOrEmailString(contacts, sep))
+	} else {
+		emailAddrs = append(emailAddrs, sobjects.ContactsEmailOrIdString(contacts, sep))
+	}
+
+	emailAddrsCanonical := []string{}
+	emailAddrsSeen := map[string]int{}
+
+	for _, emailAddr := range emailAddrs {
+		emailAddr = strings.TrimSpace(emailAddr)
+		if len(emailAddrs) == 0 {
+			continue
+		}
+		if _, ok := emailAddrsSeen[emailAddr]; !ok {
+			emailAddrsCanonical = append(emailAddrsCanonical, emailAddr)
+			emailAddrsSeen[emailAddr] = 1
+		}
+	}
+	return strings.Join(emailAddrsCanonical, sep)
+}
+
 func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[string]string {
 	data := email.Data
-	sep := ";"
-	if len(email.To) > 0 {
-		if emailPriorityType == ContactIdPriority {
-			data["to_"] = sobjects.ContactsIdOrEmailString(email.To, sep)
-		} else {
-			data["to_"] = sobjects.ContactsEmailOrIdString(email.To, sep)
-		}
-	}
-	if len(email.Cc) > 0 {
-		if emailPriorityType == ContactIdPriority {
-			data["cc_"] = sobjects.ContactsIdOrEmailString(email.Cc, sep)
-		} else {
-			data["cc_"] = sobjects.ContactsEmailOrIdString(email.Cc, sep)
-		}
-	}
-	if len(email.Bcc) > 0 {
-		if emailPriorityType == ContactIdPriority {
-			data["bcc_"] = sobjects.ContactsIdOrEmailString(email.Bcc, sep)
-		} else {
-			data["bcc_"] = sobjects.ContactsEmailOrIdString(email.Bcc, sep)
-		}
-	}
+	data[To_] = mergeContacts(mu.MapSSValOrEmpty(data, To_), email.To, emailPriorityType, Sep)
+	data[Cc_] = mergeContacts(mu.MapSSValOrEmpty(data, Cc_), email.Cc, emailPriorityType, Sep)
+	data[Bcc_] = mergeContacts(mu.MapSSValOrEmpty(data, Bcc_), email.Bcc, emailPriorityType, Sep)
 	return data
 }
 
