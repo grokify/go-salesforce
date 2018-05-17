@@ -11,4 +11,5 @@ This program allows you to auto-generate Apex code using Go. This project builds
 * Will accept simple subject and body templates
 * Can convert Markdown body to Salesforce HTML body
 * Can prioritize Contact.Id over Contact.Email for sending so messages can be associated with contact object
-* Will automatically use `setTargetObjectId` vs. `setToAddresses`
+* Automatically use `setTargetObjectId` vs. `setToAddresses`
+* Support `Contact.Id` or `Contact.Email` preference for sending to (a) attach to contact object and for (b) testing.
