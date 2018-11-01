@@ -84,11 +84,13 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromLocal(sSfidTry string, sType s
 
 func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType string) (SobjectFsdb, error) {
 	if fc.Config.ConfigGeneral.FlagDisableRemote == true {
-		sobNop := NewSobjectFsdb()
 		err := errors.New("404 File Not Found")
-		return sobNop, err
+		return NewSobjectFsdb(), err
 	}
 	resTry, err := fc.RestClient.GetSobjectResponseForSfidAndType(sSfidTry, sType)
+	if err != nil {
+		return NewSobjectFsdb(), err
+	}
 	sobTry := NewSobjectFsdbForResponse(resTry)
 
 	if resTry.StatusCode == 404 && sType == "Account" {
