@@ -8,7 +8,7 @@ Some benefits of using Apex to send email with Salesforce:
 * You can customize email by programmatically creating email
 * You can send email via [Developer Workbench](https://workbench.developerforce.com/)
 * Emails can be automatically attached to Salesforce Contacts
-* Emails do not count towards quota if you use TargetObjectId
+* Emails do not count towards quota if you use `TargetObjectId`
 
 This program allows you to auto-generate Apex code using Go. This project builds Apex code that can send HTML email via Salesforce `Messaging.SingleEmailMessage` and `Messaging.sendEmail(emails)`. It has the following features:
 
