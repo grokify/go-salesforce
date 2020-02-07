@@ -22,6 +22,10 @@ The `entityprefixes.csv` file contains the prefixes from the Salesforce Standard
 
 [https://help.salesforce.com/apex/HTViewSolution?urlname=Standard-Field-Record-ID-Prefix-Decoder&language=en_US](https://help.salesforce.com/apex/HTViewSolution?urlname=Standard-Field-Record-ID-Prefix-Decoder&language=en_US)
 
+For more see Daniel Ballinger's website as mentioned by Salesforce:
+
+* [Obscure Salesforce object key prefixes](http://www.fishofprey.com/2011/09/obscure-salesforce-object-key-prefixes.html)
+
 ## Contributing
 
 Features, Issues, and Pull Requests are always welcome.
