@@ -55,7 +55,7 @@ func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 }
 
 func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
-	files, err := ioutilmore.DirEntriesReSizeGt0(dir, regexp.MustCompile(`(?i)\.json$`))
+	files, err := ioutilmore.DirEntriesReNotEmpty(dir, regexp.MustCompile(`(?i)\.json$`))
 	if err != nil {
 		return err
 	}
