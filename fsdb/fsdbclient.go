@@ -9,8 +9,6 @@ import (
 	"os"
 	"path"
 	"time"
-
-	httputil "github.com/grokify/gotilla/net/httputilmore"
 )
 
 type FsdbClient struct {
@@ -172,7 +170,7 @@ func (so *SobjectFsdb) SetEpochRetrievedSource() {
 }
 
 func (so *SobjectFsdb) LoadResponse(res *http.Response) error {
-	body, err := httputil.ResponseBody(res)
+	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}

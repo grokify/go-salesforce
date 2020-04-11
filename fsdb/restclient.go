@@ -2,10 +2,10 @@ package salesforcefsdb
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
-	httputil "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 )
 
@@ -46,7 +46,7 @@ func (cl *RestClient) LoadToken() error {
 	if err != nil {
 		return err
 	}
-	body, err := httputil.ResponseBody(resp)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}

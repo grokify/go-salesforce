@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
-
-	"github.com/grokify/gotilla/net/httputilmore"
 )
 
 type Account struct {
@@ -22,7 +21,7 @@ type AccountSet struct {
 func NewAccountSetFromJSONResponse(resp *http.Response) (AccountSet, error) {
 	set := AccountSet{Records: []Account{}}
 
-	bytes, err := httputilmore.ResponseBody(resp)
+	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return set, err
 	}

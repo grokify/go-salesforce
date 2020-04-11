@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/io/ioutilmore"
-	"github.com/grokify/gotilla/net/httputilmore"
 )
 
 type ContactSet struct {
@@ -46,7 +45,7 @@ func NewContactSetFromXmlFile(filepath string) (ContactSet, error) {
 
 func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 	set := NewContactSet()
-	bytes, err := httputilmore.ResponseBody(resp)
+	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return set, err
 	}
