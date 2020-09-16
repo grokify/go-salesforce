@@ -26,6 +26,17 @@ For more see Daniel Ballinger's website as mentioned by Salesforce:
 
 * [Obscure Salesforce object key prefixes](http://www.fishofprey.com/2011/09/obscure-salesforce-object-key-prefixes.html)
 
+## Tools
+
+### Salesforce CLI:
+
+* https://developer.salesforce.com/tools/sfdxcli
+* https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm
+
+### VS Code Extension
+
+https://salesforcedx-vscode.netlify.app/tools/vscode/en/getting-started/install
+
 ## Contributing
 
 Features, Issues, and Pull Requests are always welcome.
