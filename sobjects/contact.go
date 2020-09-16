@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"path"
 	"regexp"
 	"strings"
 
@@ -54,12 +53,11 @@ func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 }
 
 func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
-	files, err := ioutilmore.DirEntriesReNotEmpty(dir, regexp.MustCompile(`(?i)\.json$`))
+	_, filepaths, err := ioutilmore.ReadDirRx(dir, regexp.MustCompile(`(?i)\.json$`), true)
 	if err != nil {
 		return err
 	}
-	for _, fi := range files {
-		filepath := path.Join(dir, fi.Name())
+	for _, filepath := range filepaths {
 		contact, err := NewContactFromJsonFile(filepath)
 		if err == nil && len(contact.Id) > 0 {
 			set.Records = append(set.Records, contact)
