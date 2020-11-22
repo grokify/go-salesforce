@@ -1,10 +1,53 @@
 package workbench
 
 import (
+	"fmt"
+	"io/ioutil"
+	"regexp"
 	"strings"
+
+	"github.com/grokify/gotilla/type/stringsutil"
 )
 
-func SliceToSql(slice []string) string {
+var maxInsertLength = 18000
+
+var rxSplitLines = regexp.MustCompile(`(\r\n|\r|\n)`)
+
+func SplitTextLines(text string) []string {
+	return rxSplitLines.Split(text, -1)
+}
+
+func ReadFileCSVToSQLs(filename, sqlFormat string, skipHeader bool) ([]string, error) {
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return []string{}, err
+	}
+	lines := strings.Split(string(bytes), "\n")
+	if len(lines) == 0 {
+		return []string{}, nil
+	}
+	if skipHeader {
+		lines = lines[1:]
+	}
+	if len(lines) == 0 {
+		return []string{}, nil
+	}
+	values := stringsutil.SliceCondenseSpace(
+		strings.Split(string(bytes), "\n"), true, true)
+	sqls := BuildSQLsInStrings(sqlFormat, values)
+	return sqls, nil
+}
+
+func BuildSQLsInStrings(sqlFormat string, values []string) []string {
+	sqls := []string{}
+	sqlIns := SliceToSQLs(values)
+	for _, sqlIn := range sqlIns {
+		sqls = append(sqls, fmt.Sprintf(sqlFormat, sqlIn))
+	}
+	return sqls
+}
+
+func SliceToSQL(slice []string) string {
 	newSlice := []string{}
 	for _, el := range slice {
 		newSlice = append(newSlice, "'"+el+"'")
@@ -12,8 +55,8 @@ func SliceToSql(slice []string) string {
 	return strings.Join(newSlice, ",")
 }
 
-func SliceToSqls(slice []string) []string {
-	max := 18000
+func SliceToSQLs(slice []string) []string {
+	max := maxInsertLength
 	strIdx := 0
 	newSlicesWip := [][]string{}
 	newSlicesWip = append(newSlicesWip, []string{})
