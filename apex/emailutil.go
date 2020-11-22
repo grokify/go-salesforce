@@ -12,9 +12,34 @@ import (
 type EmailPriorityType int
 
 const (
-	ContactIdPriority EmailPriorityType = iota
-	ContactEmailPriority
+	// Setting ContactPriorityID will enable
+	// Salesforce to associate the email with
+	// the contact object and is generally
+	// preferred/
+	ContactPriorityID EmailPriorityType = iota
+	ContactPriorityEmail
 )
+
+type ApexEmailRequestOpts struct {
+	EmailInfos            []ApexEmailInfo
+	SubjectTemplate       string
+	BodyTemplate          string
+	ReplyToEmail          string
+	ReplyToName           string
+	RecipientPriorityType EmailPriorityType
+}
+
+func BuildApexEmail(req ApexEmailRequestOpts) string {
+	data := []map[string]string{}
+	for _, info := range req.EmailInfos {
+		data = append(data, info.ToMap(req.RecipientPriorityType))
+	}
+	return ApexEmailsSliceTemplate(data,
+		req.SubjectTemplate,
+		req.BodyTemplate,
+		req.ReplyToEmail,
+		req.ReplyToName)
+}
 
 const (
 	To_             = "to_"
@@ -61,7 +86,7 @@ func mergeContacts(raw string, contacts []sobjects.Contact, emailPriorityType Em
 		emailAddrs = append(emailAddrs, strings.Split(raw, sep)...)
 	}
 
-	if emailPriorityType == ContactIdPriority {
+	if emailPriorityType == ContactPriorityID {
 		emailAddrs = append(emailAddrs, sobjects.ContactsIdOrEmailString(contacts, sep))
 	} else {
 		emailAddrs = append(emailAddrs, sobjects.ContactsEmailOrIdString(contacts, sep))
@@ -93,25 +118,4 @@ func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[strin
 		data[To_] = ""
 	}
 	return data
-}
-
-type BuildApexEmailRequest struct {
-	EmailInfos            []ApexEmailInfo
-	SubjectTemplate       string
-	BodyTemplate          string
-	ReplyToEmail          string
-	ReplyToName           string
-	RecipientPriorityType EmailPriorityType
-}
-
-func BuildApexEmail(req BuildApexEmailRequest) string {
-	data := []map[string]string{}
-	for _, info := range req.EmailInfos {
-		data = append(data, info.ToMap(req.RecipientPriorityType))
-	}
-	return ApexEmailsSliceTemplate(data,
-		req.SubjectTemplate,
-		req.BodyTemplate,
-		req.ReplyToEmail,
-		req.ReplyToName)
 }
