@@ -4,7 +4,7 @@ String emailSubjectTmpl = 'My Demo Subject';
 String emailBodyTmpl = '<p>This is a test email template showing basic variable substitution.</p>\n\n<ul>\n<li>Code: {{CODE_URL}}</li>\n</ul>\n\n<p>Thanks,</p>\n\n<p>{{FROM_NAME}}</p>\n';
 String replyToEmail = 'sender@example.com';
 String senderDisplayName = 'Example Sender User';
-List<Map<String,String>> emailsData = new List<Map<String,String>>{new Map<String, String> {'FROM_NAME' => 'grokify','to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/tree/master/apex'}};
+List<Map<String,String>> emailsData = new List<Map<String,String>>{new Map<String, String> {'to_' => 'alice@example.com;bob@example.com','cc_' => 'carol@example.com;dan@example.com','bcc_' => 'erin@example.com;frank@example.com','CODE_URL' => 'https://github.com/grokify/go-salesforce/tree/master/apex','FROM_NAME' => 'grokify'}};
 
 List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 

@@ -27,15 +27,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	req := apex.BuildApexEmailRequest{
+	req := apex.ApexEmailRequestOpts{
 		EmailInfos:            emailsData,
 		SubjectTemplate:       "My Demo Subject",
 		BodyTemplate:          apex.MarkdownToApexEmailHtml(bodyBytesMd),
 		ReplyToEmail:          "sender@example.com",
 		ReplyToName:           "Example Sender User",
-		RecipientPriorityType: apex.ContactEmailPriority}
+		RecipientPriorityType: apex.ContactPriorityEmail}
 
 	apexCode := apex.BuildApexEmail(req)
+
+	fmt.Println(apexCode)
 
 	err = ioutil.WriteFile(outputApexFile, []byte(apexCode), 0644)
 	if err != nil {
