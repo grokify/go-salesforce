@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/urlutil"
+	"github.com/grokify/simplego/net/urlutil"
 )
 
 type SalesforceTokenResponse struct {

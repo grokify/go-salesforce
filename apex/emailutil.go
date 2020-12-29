@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-salesforce/sobjects"
-	mu "github.com/grokify/gotilla/type/maputil"
+	mu "github.com/grokify/simplego/type/maputil"
 	"gopkg.in/russross/blackfriday.v2"
 )
 
