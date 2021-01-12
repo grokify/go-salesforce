@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-
-	log "github.com/sirupsen/logrus"
+	"log"
 
 	"github.com/grokify/go-salesforce/apex"
 	"github.com/grokify/go-salesforce/sobjects"
