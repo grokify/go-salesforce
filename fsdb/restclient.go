@@ -84,14 +84,17 @@ func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType strin
 	return res, err
 }
 
-func (cl *RestClient) GetSoqlResponse(sSoql string) string {
-	dQry := map[string]string{"q": sSoql}
-	aUrl := []string{"https:/",
+func (cl *RestClient) GetSoqlResponse(sSoql string) (string, error) {
+	dQry := map[string][]string{"q": {sSoql}}
+	soqlUrlSlice := []string{"https:/",
 		cl.Config.ConfigGeneral.ApiFqdn,
 		"services/data",
 		"v" + cl.Config.ConfigGeneral.ApiVersion,
 		"query"}
-	sUrl := strings.Join(aUrl, "/")
-	sUrl = urlutil.BuildURLFromMap(sUrl, dQry)
-	return sUrl
+	soqlUrl := strings.Join(soqlUrlSlice, "/")
+	soqlUrlGo, err := urlutil.URLAddQueryString(soqlUrl, dQry)
+	if err != nil {
+		return soqlUrl, err
+	}
+	return soqlUrlGo.String(), nil
 }
