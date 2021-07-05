@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/grokify/simplego/io/ioutilmore"
+	"github.com/grokify/simplego/os/osutil"
 )
 
 type ContactSet struct {
@@ -53,10 +53,11 @@ func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 }
 
 func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
-	_, filepaths, err := ioutilmore.ReadDirMore(dir, regexp.MustCompile(`(?i)\.json$`), true, true)
+	entries, err := osutil.ReadDirMore(dir, regexp.MustCompile(`(?i)\.json$`), false, true, true)
 	if err != nil {
 		return err
 	}
+	filepaths := osutil.DirEntrySlice(entries).Names(dir, true)
 	for _, filepath := range filepaths {
 		contact, err := NewContactFromJsonFile(filepath)
 		if err == nil && len(contact.Id) > 0 {
