@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-salesforce/sobjects"
-	"github.com/grokify/simplego/io/ioutilmore"
+	"github.com/grokify/simplego/os/osutil"
 )
 
 type FsdbPathUtil struct {
@@ -38,7 +38,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 	if err != nil {
 		return "", err
 	}
-	ok, err := ioutilmore.IsFileWithSizeGtZero(path1)
+	ok, err := osutil.IsFileWithSizeGtZero(path1)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +54,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 		if err != nil {
 			return "", err
 		}
-		ok2, err := ioutilmore.IsFileWithSizeGtZero(path2)
+		ok2, err := osutil.IsFileWithSizeGtZero(path2)
 		if err != nil {
 			return "", err
 		}
