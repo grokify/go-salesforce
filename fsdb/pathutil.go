@@ -38,7 +38,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 	if err != nil {
 		return "", err
 	}
-	ok, err := osutil.IsFileWithSizeGtZero(path1)
+	ok, err := osutil.IsFile(path1, true)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +54,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 		if err != nil {
 			return "", err
 		}
-		ok2, err := osutil.IsFileWithSizeGtZero(path2)
+		ok2, err := osutil.IsFile(path2, true)
 		if err != nil {
 			return "", err
 		}
