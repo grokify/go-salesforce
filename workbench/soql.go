@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/type/stringsutil"
 )
 
 var maxInsertLength = 18000

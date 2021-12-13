@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-salesforce/sobjects"
-	"github.com/grokify/simplego/os/osutil"
+	"github.com/grokify/mogo/os/osutil"
 )
 
 type FsdbPathUtil struct {

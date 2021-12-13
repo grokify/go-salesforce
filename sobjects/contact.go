@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/grokify/simplego/os/osutil"
+	"github.com/grokify/mogo/os/osutil"
 )
 
 type ContactSet struct {
