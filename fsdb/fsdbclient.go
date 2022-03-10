@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -67,7 +66,7 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromLocal(sSfidTry string, sType s
 	if _, err := os.Stat(sPath); os.IsNotExist(err) {
 		return sobTry, err
 	}
-	abData, err := ioutil.ReadFile(sPath)
+	abData, err := os.ReadFile(sPath)
 	if err != nil {
 		return sobTry, err
 	}
@@ -124,8 +123,8 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType 
 				sobjAct301.SetEpochRetrievedSource()
 				sobjAct301.Meta.HttpStatusCodeI32 = int32(301)
 				sobjAct301.Meta.RedirectSfidS = sSfidAct
-				fc.WriteSobjectFsdb(sSfidTry, "Account", sobjAct301)
-				return sobAct, nil
+				err = fc.WriteSobjectFsdb(sSfidTry, "Account", sobjAct301)
+				return sobAct, err
 			}
 		}
 	}
@@ -149,7 +148,7 @@ func (fc *FsdbClient) WriteSobjectFsdb(sSfid string, sType string, sobjectFsdb S
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(sPath, j, 0600)
+	err = os.WriteFile(sPath, j, 0600)
 	if err != nil {
 		return err
 	}

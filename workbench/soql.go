@@ -2,7 +2,7 @@ package workbench
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"strings"
 
@@ -18,7 +18,7 @@ func SplitTextLines(text string) []string {
 }
 
 func ReadFileCSVToSQLs(filename, sqlFormat string, skipHeader bool) ([]string, error) {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return []string{}, err
 	}

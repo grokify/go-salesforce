@@ -2,7 +2,7 @@ package salesforcefsdb
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -46,12 +46,15 @@ func (cl *RestClient) LoadToken() error {
 	if err != nil {
 		return err
 	}
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
 	tokRes := SalesforceTokenResponse{}
-	json.Unmarshal(body, &tokRes)
+	err = json.Unmarshal(body, &tokRes)
+	if err != nil {
+		return err
+	}
 	cl.TokenResponse = tokRes
 	return nil
 }

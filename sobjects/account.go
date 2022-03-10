@@ -3,7 +3,7 @@ package sobjects
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -20,7 +20,7 @@ type AccountSet struct {
 func NewAccountSetFromJSONResponse(resp *http.Response) (AccountSet, error) {
 	set := AccountSet{Records: []Account{}}
 
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return set, err
 	}
@@ -37,7 +37,7 @@ func (set *AccountSet) GetAccountByName(name string) (Account, error) {
 	return Account{}, fmt.Errorf("could not found Account by name [%v]", name)
 }
 
-func (set *AccountSet) GetAccountById(id string) (Account, error) {
+func (set *AccountSet) GetAccountByID(id string) (Account, error) {
 	for _, act := range set.Records {
 		if act.ID == id {
 			return act, nil

@@ -3,7 +3,7 @@ package sobjects
 import (
 	"encoding/json"
 	"encoding/xml"
-	"io/ioutil"
+	"os"
 )
 
 type CampaignMemberSet struct {
@@ -20,45 +20,48 @@ func NewCampaignMemberSet() CampaignMemberSet {
 	return set
 }
 
-func NewCampaignMemberSetFromXml(bytes []byte) (CampaignMemberSet, error) {
+func NewCampaignMemberSetFromXML(bytes []byte) (CampaignMemberSet, error) {
 	set := NewCampaignMemberSet()
 	err := xml.Unmarshal(bytes, &set)
+	if err != nil {
+		return set, err
+	}
 	set.Inflate()
 	return set, err
 }
 
-func NewCampaignMemberSetFromXmlFile(filepath string) (CampaignMemberSet, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+func NewCampaignMemberSetFromXMLFile(filepath string) (CampaignMemberSet, error) {
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return CampaignMemberSet{}, err
 	}
-	return NewCampaignMemberSetFromXml(bytes)
+	return NewCampaignMemberSetFromXML(bytes)
 }
 
 func (set *CampaignMemberSet) Inflate() {
 	for _, record := range set.Records {
-		if len(record.Id) > 0 {
-			set.IdSet.AddId(record.Id)
-			set.RecordsMap[record.Id] = record
+		if len(record.ID) > 0 {
+			set.IdSet.AddId(record.ID)
+			set.RecordsMap[record.ID] = record
 		}
-		if len(record.ContactId) > 0 {
-			set.IdSet.AddId(record.ContactId)
+		if len(record.ContactID) > 0 {
+			set.IdSet.AddId(record.ContactID)
 		}
-		if len(record.LeadId) > 0 {
-			set.IdSet.AddId(record.LeadId)
+		if len(record.LeadID) > 0 {
+			set.IdSet.AddId(record.LeadID)
 		}
 	}
 }
 
 type CampaignMember struct {
-	Id                 string
-	CampaignId         string
-	ContactId          string
+	ID                 string
+	CampaignID         string
+	ContactID          string
 	CreatedDate        string
 	CurrencyIsoCode    string
 	FirstRespondedDate string
 	HasResponded       bool
-	LeadId             string
+	LeadID             string
 	Name               string
 	Status             string
 }
@@ -70,7 +73,7 @@ func NewCampaignMemberFromJson(bytes []byte) (CampaignMember, error) {
 }
 
 func NewCampaignMemberFromJsonFile(filepath string) (CampaignMember, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return CampaignMember{}, err
 	}

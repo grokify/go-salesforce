@@ -31,11 +31,7 @@ func (set *IdSet) AddId(id string) {
 	if _, ok1 := set.IdMapByType[desc]; !ok1 {
 		set.IdMapByType[desc] = map[string]int{}
 	}
-	if _, ok2 := set.IdMapByType[desc][id]; ok2 {
-		set.IdMapByType[desc][id]++
-	} else {
-		set.IdMapByType[desc][id] = 1
-	}
+	set.IdMapByType[desc][id]++
 }
 
 func (set *IdSet) GetIdsByType(sobjectType string) map[string]int {

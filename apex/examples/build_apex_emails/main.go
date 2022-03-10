@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/grokify/go-salesforce/apex"
 	"github.com/grokify/go-salesforce/sobjects"
@@ -21,7 +21,7 @@ func main() {
 			"CODE_URL":  "https://github.com/grokify/go-salesforce/tree/master/apex",
 			"FROM_NAME": "grokify"}}}
 
-	bodyBytesMd, err := ioutil.ReadFile(inputBodyFile)
+	bodyBytesMd, err := os.ReadFile(inputBodyFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func main() {
 
 	fmt.Println(apexCode)
 
-	err = ioutil.WriteFile(outputApexFile, []byte(apexCode), 0644)
+	err = os.WriteFile(outputApexFile, []byte(apexCode), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 
@@ -34,7 +35,7 @@ func NewContactSetSetFromXml(bytes []byte) (ContactSet, error) {
 }
 
 func NewContactSetFromXmlFile(filepath string) (ContactSet, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return ContactSet{}, err
 	}
@@ -43,7 +44,7 @@ func NewContactSetFromXmlFile(filepath string) (ContactSet, error) {
 
 func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 	set := NewContactSet()
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return set, err
 	}
@@ -114,7 +115,7 @@ func NewContactFromJSON(bytes []byte) (Contact, error) {
 }
 
 func NewContactFromJsonFile(filepath string) (Contact, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return Contact{}, err
 	}
