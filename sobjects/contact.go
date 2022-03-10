@@ -14,21 +14,21 @@ import (
 )
 
 type ContactSet struct {
-	IdSet      IDSet              `xml:"-"`
+	IDSet      IDSet              `xml:"-"`
 	Records    []Contact          `json:"records,omitempty" xml:"records"`
 	RecordsMap map[string]Contact `xml:"-"`
 }
 
 func NewContactSet() ContactSet {
 	set := ContactSet{
-		IdSet:      NewIDSet(),
+		IDSet:      NewIDSet(),
 		Records:    []Contact{},
 		RecordsMap: map[string]Contact{}}
 	return set
 }
 
 func NewContactSetSetFromXML(bytes []byte) (ContactSet, error) {
-	set := ContactSet{IdSet: NewIDSet()}
+	set := ContactSet{IDSet: NewIDSet()}
 	err := xml.Unmarshal(bytes, &set)
 	set.Inflate()
 	return set, err
@@ -59,7 +59,7 @@ func (set *ContactSet) ReadJSONFilesFromDir(dir string) error {
 	}
 	filepaths := osutil.DirEntries(entries).Names(dir, true)
 	for _, filepath := range filepaths {
-		contact, err := NewContactFromJsonFile(filepath)
+		contact, err := NewContactFromJSONFile(filepath)
 		if err == nil && len(contact.ID) > 0 {
 			set.Records = append(set.Records, contact)
 		}
@@ -70,11 +70,11 @@ func (set *ContactSet) ReadJSONFilesFromDir(dir string) error {
 func (set *ContactSet) Inflate() {
 	for _, record := range set.Records {
 		if len(record.ID) > 0 {
-			set.IdSet.AddId(record.ID)
+			set.IDSet.AddId(record.ID)
 			set.RecordsMap[record.ID] = record
 		}
 		if len(record.AccountID) > 0 {
-			set.IdSet.AddId(record.AccountID)
+			set.IDSet.AddId(record.AccountID)
 		}
 	}
 }
@@ -114,7 +114,7 @@ func NewContactFromJSON(bytes []byte) (Contact, error) {
 	return obj, err
 }
 
-func NewContactFromJsonFile(filepath string) (Contact, error) {
+func NewContactFromJSONFile(filepath string) (Contact, error) {
 	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return Contact{}, err
@@ -133,14 +133,14 @@ func ContactEmailOrID(contact Contact) string {
 }
 
 func ContactsEmailOrID(contacts []Contact) []string {
-	emailOrIds := []string{}
+	emailOrIDs := []string{}
 	for _, contact := range contacts {
-		emailOrId := ContactEmailOrID(contact)
-		if len(emailOrId) > 0 {
-			emailOrIds = append(emailOrIds, emailOrId)
+		emailOrID := ContactEmailOrID(contact)
+		if len(emailOrID) > 0 {
+			emailOrIDs = append(emailOrIDs, emailOrID)
 		}
 	}
-	return emailOrIds
+	return emailOrIDs
 }
 
 func ContactsEmailOrIDString(contacts []Contact, sep string) string {

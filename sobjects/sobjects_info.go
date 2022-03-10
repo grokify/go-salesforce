@@ -21,7 +21,7 @@ func NewSObjectsInfo() SObjectsInfo {
 	return types
 }
 
-func (types *SObjectsInfo) GetId15ForId(id string) (string, error) {
+func (types *SObjectsInfo) GetID15ForID(id string) (string, error) {
 	if len(id) == 15 {
 		return id, nil
 	} else if len(id) == 18 {

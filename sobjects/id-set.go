@@ -6,15 +6,15 @@ import (
 
 type IDSet struct {
 	SObjectsInfo SObjectsInfo `json:"-"`
-	IdMap        map[string]int
-	IdMapByType  map[string]map[string]int
+	IDMap        map[string]int
+	IDMapByType  map[string]map[string]int
 }
 
 func NewIDSet() IDSet {
 	set := IDSet{
 		SObjectsInfo: NewSObjectsInfo(),
-		IdMap:        map[string]int{},
-		IdMapByType:  map[string]map[string]int{}}
+		IDMap:        map[string]int{},
+		IDMapByType:  map[string]map[string]int{}}
 	return set
 }
 
@@ -22,21 +22,21 @@ func (set *IDSet) AddId(id string) {
 	if len(id) < 1 {
 		return
 	}
-	set.IdMap[id]++
+	set.IDMap[id]++
 	desc, err := set.SObjectsInfo.GetTypeForId(id)
 	if err != nil {
 		return
 	}
 	desc = strings.ToUpper(desc)
-	if _, ok1 := set.IdMapByType[desc]; !ok1 {
-		set.IdMapByType[desc] = map[string]int{}
+	if _, ok1 := set.IDMapByType[desc]; !ok1 {
+		set.IDMapByType[desc] = map[string]int{}
 	}
-	set.IdMapByType[desc][id]++
+	set.IDMapByType[desc][id]++
 }
 
-func (set *IDSet) GetIdsByType(sobjectType string) map[string]int {
+func (set *IDSet) GetIDsByType(sobjectType string) map[string]int {
 	sobjectType = strings.ToUpper(sobjectType)
-	if ids, ok := set.IdMapByType[sobjectType]; ok {
+	if ids, ok := set.IDMapByType[sobjectType]; ok {
 		return ids
 	} else {
 		return map[string]int{}
@@ -44,30 +44,30 @@ func (set *IDSet) GetIdsByType(sobjectType string) map[string]int {
 }
 
 func (set *IDSet) Merge(newSet IDSet) {
-	for id := range newSet.IdMap {
+	for id := range newSet.IDMap {
 		set.AddId(id)
 	}
 }
 
 func (set *IDSet) MergeTypes(newSet IDSet, types []string) {
 	for _, sObjectType := range types {
-		ids := newSet.GetIdsByType(sObjectType)
+		ids := newSet.GetIDsByType(sObjectType)
 		for id := range ids {
 			set.AddId(id)
 		}
 	}
 }
 
-type IdSetMulti struct {
+type IDSetMulti struct {
 	Sets map[string]IDSet
 }
 
-func NewIdSetMulti() IdSetMulti {
-	sets := IdSetMulti{Sets: map[string]IDSet{}}
+func NewIDSetMulti() IDSetMulti {
+	sets := IDSetMulti{Sets: map[string]IDSet{}}
 	return sets
 }
 
-func (sets *IdSetMulti) MergeTypes(setName string, newSet IDSet, types []string) {
+func (sets *IDSetMulti) MergeTypes(setName string, newSet IDSet, types []string) {
 	if len(setName) < 1 {
 		return
 	}

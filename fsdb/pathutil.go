@@ -46,7 +46,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 		return path1, nil
 	}
 	if len(id) == 18 {
-		id15, err := fsdb.SObjectsInfo.GetId15ForId(id)
+		id15, err := fsdb.SObjectsInfo.GetID15ForID(id)
 		if err != nil {
 			return "", err
 		}
