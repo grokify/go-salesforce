@@ -57,7 +57,7 @@ type Field struct {
 	Groupable                    bool   `json:"groupable"`
 	HighScaleNumber              bool   `json:"highScaleNumber"`
 	HTMLFormatted                bool   `json:"htmlFormatted"`
-	IdLookup                     bool   `json:"idLookup"`
+	IDLookup                     bool   `json:"idLookup"`
 	InlineHelpText               string `json:"inlineHelpText"` // null,
 	Label                        string `json:"label"`
 	Length                       int    `json:"length"`

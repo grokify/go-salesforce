@@ -72,15 +72,15 @@ func (cl *RestClient) GetSobjectURLForSfidAndType(sSfid string, sType string) st
 }
 
 func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType string) (*http.Response, error) {
-	sUrl := cl.GetSobjectURLForSfidAndType(sSfid, sType)
+	sURL := cl.GetSobjectURLForSfidAndType(sSfid, sType)
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, sUrl, nil)
+	req, err := http.NewRequest(http.MethodGet, sURL, nil)
 	if err != nil {
-		return &http.Response{}, err
+		return nil, err
 	}
 	accessToken, err := cl.GetAccessToken()
 	if err != nil {
-		return &http.Response{}, err
+		return nil, err
 	}
 	req.Header.Add(httputilmore.HeaderAuthorization, "Bearer "+accessToken)
 	return client.Do(req)
@@ -88,15 +88,15 @@ func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType strin
 
 func (cl *RestClient) GetSoqlResponse(sSoql string) (string, error) {
 	dQry := map[string][]string{"q": {sSoql}}
-	soqlUrlSlice := []string{"https:/",
+	soqlURLSlice := []string{"https:/",
 		cl.Config.ConfigGeneral.APIFqdn,
 		"services/data",
 		"v" + cl.Config.ConfigGeneral.APIVersion,
 		"query"}
-	soqlUrl := strings.Join(soqlUrlSlice, "/")
-	soqlUrlGo, err := urlutil.URLAddQueryString(soqlUrl, dQry)
+	soqlURL := strings.Join(soqlURLSlice, "/")
+	soqlURLGo, err := urlutil.URLAddQueryString(soqlURL, dQry)
 	if err != nil {
-		return soqlUrl, err
+		return soqlURL, err
 	}
-	return soqlUrlGo.String(), nil
+	return soqlURLGo.String(), nil
 }
