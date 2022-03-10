@@ -22,7 +22,7 @@ type ChildRelationship struct {
 	ChildSObject        string        `json:"childSObject"`
 	DeprecatedAndHidden bool          `json:"deprecatedAndHidden"`
 	Field               string        `json:"field"`
-	JunctionIdListNames []interface{} `json:"junctionIdListNames"`
+	JunctionIDListNames []interface{} `json:"junctionIdListNames"`
 	JunctionReferenceTo []interface{} `json:"junctionReferenceTo"`
 	RelationshipName    string        `json:"relationshipName"`
 	RestrictedDelete    bool          `json:"restrictedDelete"`
@@ -49,14 +49,14 @@ type Field struct {
 	Digits                   int    `json:"digits"`
 	DisplayLocationInDecimal bool   `json:"displayLocationInDecimal"`
 	Encrypted                bool   `json:"encrypted"`
-	ExternalId               bool   `json:"externalId"`
+	ExternalID               bool   `json:"externalId"`
 	ExtraTypeInfo            string `json:"extraTypeInfo"`
 	Filterable               bool   `json:"filterable"`
 	//FilteredLookupInfo" : null,
 	FormulaTreatNullNumberAsZero bool   `json:"formulaTreatNullNumberAsZero"`
 	Groupable                    bool   `json:"groupable"`
 	HighScaleNumber              bool   `json:"highScaleNumber"`
-	HtmlFormatted                bool   `json:"htmlFormatted"`
+	HTMLFormatted                bool   `json:"htmlFormatted"`
 	IdLookup                     bool   `json:"idLookup"`
 	InlineHelpText               string `json:"inlineHelpText"` // null,
 	Label                        string `json:"label"`
@@ -93,5 +93,5 @@ type PicklistValue struct {
 	DefaultValue bool   `json:"defaultValue"`
 	Label        string `json:"type"`
 	//"validFor" : null,
-	Value string `json:"type"`
+	Value string `json:"value"`
 }

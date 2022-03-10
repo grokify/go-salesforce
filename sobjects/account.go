@@ -2,14 +2,13 @@ package sobjects
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
 type Account struct {
-	Id   string `json:"id,omitempty"`
+	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
@@ -35,14 +34,14 @@ func (set *AccountSet) GetAccountByName(name string) (Account, error) {
 			return act, nil
 		}
 	}
-	return Account{}, errors.New(fmt.Sprintf("Could not found Account by name [%v]", name))
+	return Account{}, fmt.Errorf("could not found Account by name [%v]", name)
 }
 
 func (set *AccountSet) GetAccountById(id string) (Account, error) {
 	for _, act := range set.Records {
-		if act.Id == id {
+		if act.ID == id {
 			return act, nil
 		}
 	}
-	return Account{}, errors.New(fmt.Sprintf("Could not found Account by id [%v]", id))
+	return Account{}, fmt.Errorf("could not found Account by id [%v]", id)
 }

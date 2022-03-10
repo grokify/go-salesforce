@@ -22,11 +22,7 @@ func (set *IdSet) AddId(id string) {
 	if len(id) < 1 {
 		return
 	}
-	if _, ok := set.IdMap[id]; ok {
-		set.IdMap[id]++
-	} else {
-		set.IdMap[id] = 1
-	}
+	set.IdMap[id]++
 	desc, err := set.SObjectsInfo.GetTypeForId(id)
 	if err != nil {
 		return

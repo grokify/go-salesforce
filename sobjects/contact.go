@@ -3,7 +3,6 @@ package sobjects
 import (
 	"encoding/json"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -52,7 +51,7 @@ func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {
 	return set, err
 }
 
-func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
+func (set *ContactSet) ReadJSONFilesFromDir(dir string) error {
 	entries, err := osutil.ReadDirMore(dir, regexp.MustCompile(`(?i)\.json$`), false, true, true)
 	if err != nil {
 		return err
@@ -60,7 +59,7 @@ func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
 	filepaths := osutil.DirEntries(entries).Names(dir, true)
 	for _, filepath := range filepaths {
 		contact, err := NewContactFromJsonFile(filepath)
-		if err == nil && len(contact.Id) > 0 {
+		if err == nil && len(contact.ID) > 0 {
 			set.Records = append(set.Records, contact)
 		}
 	}
@@ -69,12 +68,12 @@ func (set *ContactSet) ReadJsonFilesFromDir(dir string) error {
 
 func (set *ContactSet) Inflate() {
 	for _, record := range set.Records {
-		if len(record.Id) > 0 {
-			set.IdSet.AddId(record.Id)
-			set.RecordsMap[record.Id] = record
+		if len(record.ID) > 0 {
+			set.IdSet.AddId(record.ID)
+			set.RecordsMap[record.ID] = record
 		}
-		if len(record.AccountId) > 0 {
-			set.IdSet.AddId(record.AccountId)
+		if len(record.AccountID) > 0 {
+			set.IdSet.AddId(record.AccountID)
 		}
 	}
 }
@@ -85,21 +84,21 @@ func (set *ContactSet) GetContactByName(name string) (Contact, error) {
 			return contact, nil
 		}
 	}
-	return Contact{}, errors.New(fmt.Sprintf("Could not found Contact by name [%v]", name))
+	return Contact{}, fmt.Errorf("could not found Contact by name [%v]", name)
 }
 
-func (set *ContactSet) GetContactById(id string) (Contact, error) {
+func (set *ContactSet) GetContactByID(id string) (Contact, error) {
 	for _, contact := range set.Records {
-		if contact.Id == id {
+		if contact.ID == id {
 			return contact, nil
 		}
 	}
-	return Contact{}, errors.New(fmt.Sprintf("Could not found Contact by id [%v]", id))
+	return Contact{}, fmt.Errorf("could not found Contact by id [%v]", id)
 }
 
 type Contact struct {
-	Id         string
-	AccountId  string
+	ID         string
+	AccountID  string
 	Department string
 	Email      string
 	Fax        string
@@ -108,7 +107,7 @@ type Contact struct {
 	Name       string
 }
 
-func NewContactFromJson(bytes []byte) (Contact, error) {
+func NewContactFromJSON(bytes []byte) (Contact, error) {
 	obj := Contact{}
 	err := json.Unmarshal(bytes, &obj)
 	return obj, err
@@ -119,23 +118,23 @@ func NewContactFromJsonFile(filepath string) (Contact, error) {
 	if err != nil {
 		return Contact{}, err
 	}
-	return NewContactFromJson(bytes)
+	return NewContactFromJSON(bytes)
 }
 
-func ContactEmailOrId(contact Contact) string {
-	emailOrId := ""
+func ContactEmailOrID(contact Contact) string {
+	emailOrID := ""
 	if len(strings.TrimSpace(contact.Email)) > 0 {
-		emailOrId = contact.Email
+		emailOrID = contact.Email
 	} else {
-		emailOrId = contact.Id
+		emailOrID = contact.ID
 	}
-	return strings.TrimSpace(emailOrId)
+	return strings.TrimSpace(emailOrID)
 }
 
-func ContactsEmailOrId(contacts []Contact) []string {
+func ContactsEmailOrID(contacts []Contact) []string {
 	emailOrIds := []string{}
 	for _, contact := range contacts {
-		emailOrId := ContactEmailOrId(contact)
+		emailOrId := ContactEmailOrID(contact)
 		if len(emailOrId) > 0 {
 			emailOrIds = append(emailOrIds, emailOrId)
 		}
@@ -143,24 +142,24 @@ func ContactsEmailOrId(contacts []Contact) []string {
 	return emailOrIds
 }
 
-func ContactsEmailOrIdString(contacts []Contact, sep string) string {
-	return strings.Join(ContactsEmailOrId(contacts), sep)
+func ContactsEmailOrIDString(contacts []Contact, sep string) string {
+	return strings.Join(ContactsEmailOrID(contacts), sep)
 }
 
-func ContactIdOrEmail(contact Contact) string {
+func ContactIDOrEmail(contact Contact) string {
 	idOrEmail := ""
-	if len(strings.TrimSpace(contact.Id)) > 0 {
-		idOrEmail = contact.Id
+	if len(strings.TrimSpace(contact.ID)) > 0 {
+		idOrEmail = contact.ID
 	} else {
 		idOrEmail = contact.Email
 	}
 	return strings.TrimSpace(idOrEmail)
 }
 
-func ContactsIdOrEmail(contacts []Contact) []string {
+func ContactsIDOrEmail(contacts []Contact) []string {
 	idOrEmails := []string{}
 	for _, contact := range contacts {
-		idOrEmail := ContactIdOrEmail(contact)
+		idOrEmail := ContactIDOrEmail(contact)
 		if len(idOrEmail) > 0 {
 			idOrEmails = append(idOrEmails, idOrEmail)
 		}
@@ -168,6 +167,6 @@ func ContactsIdOrEmail(contacts []Contact) []string {
 	return idOrEmails
 }
 
-func ContactsIdOrEmailString(contacts []Contact, sep string) string {
-	return strings.Join(ContactsIdOrEmail(contacts), sep)
+func ContactsIDOrEmailString(contacts []Contact, sep string) string {
+	return strings.Join(ContactsIDOrEmail(contacts), sep)
 }

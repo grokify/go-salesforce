@@ -2,11 +2,11 @@ package workbench
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"os"
 )
 
 type Account struct {
-	Id   string `xml:"Id"`
+	ID   string `xml:"Id"`
 	Name string `xml:"Name"`
 	Type string `xml:"type"`
 }
@@ -18,7 +18,7 @@ type AccountsSet struct {
 func ReadAccountsXML(filepath string) (AccountsSet, error) {
 	qres := AccountsSet{}
 
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return AccountsSet{}, err
 	}
