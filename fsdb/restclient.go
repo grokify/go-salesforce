@@ -10,10 +10,10 @@ import (
 )
 
 type SalesforceTokenResponse struct {
-	Id          string `json:"id"`
+	ID          string `json:"id"`
 	IssuedAt    int64  `json:"issued_at"`
 	TokenType   string `json:"token_type"`
-	InstanceUrl string `json:"instance_url"`
+	InstanceURL string `json:"instance_url"`
 	AccessToken string `json:"access_token"`
 	Signature   string `json:"signature"`
 }
@@ -42,7 +42,7 @@ func (cl *RestClient) GetAccessToken() (string, error) {
 }
 
 func (cl *RestClient) LoadToken() error {
-	resp, err := http.PostForm(cl.Config.ConfigToken.TokenUrl, cl.Config.ConfigToken.UrlValues)
+	resp, err := http.PostForm(cl.Config.ConfigToken.TokenURL, cl.Config.ConfigToken.URLValues)
 	if err != nil {
 		return err
 	}
@@ -61,9 +61,9 @@ func (cl *RestClient) LoadToken() error {
 
 func (cl *RestClient) GetSobjectUrlForSfidAndType(sSfid string, sType string) string {
 	aUrl := []string{"https:/",
-		cl.Config.ConfigGeneral.ApiFqdn,
+		cl.Config.ConfigGeneral.APIFqdn,
 		"services/data",
-		"v" + cl.Config.ConfigGeneral.ApiVersion,
+		"v" + cl.Config.ConfigGeneral.APIVersion,
 		"sobjects",
 		sType,
 		sSfid}
@@ -90,9 +90,9 @@ func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType strin
 func (cl *RestClient) GetSoqlResponse(sSoql string) (string, error) {
 	dQry := map[string][]string{"q": {sSoql}}
 	soqlUrlSlice := []string{"https:/",
-		cl.Config.ConfigGeneral.ApiFqdn,
+		cl.Config.ConfigGeneral.APIFqdn,
 		"services/data",
-		"v" + cl.Config.ConfigGeneral.ApiVersion,
+		"v" + cl.Config.ConfigGeneral.APIVersion,
 		"query"}
 	soqlUrl := strings.Join(soqlUrlSlice, "/")
 	soqlUrlGo, err := urlutil.URLAddQueryString(soqlUrl, dQry)

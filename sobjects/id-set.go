@@ -18,12 +18,12 @@ func NewIDSet() IDSet {
 	return set
 }
 
-func (set *IDSet) AddId(id string) {
+func (set *IDSet) AddID(id string) {
 	if len(id) < 1 {
 		return
 	}
 	set.IDMap[id]++
-	desc, err := set.SObjectsInfo.GetTypeForId(id)
+	desc, err := set.SObjectsInfo.GetTypeForID(id)
 	if err != nil {
 		return
 	}
@@ -45,7 +45,7 @@ func (set *IDSet) GetIDsByType(sobjectType string) map[string]int {
 
 func (set *IDSet) Merge(newSet IDSet) {
 	for id := range newSet.IDMap {
-		set.AddId(id)
+		set.AddID(id)
 	}
 }
 
@@ -53,7 +53,7 @@ func (set *IDSet) MergeTypes(newSet IDSet, types []string) {
 	for _, sObjectType := range types {
 		ids := newSet.GetIDsByType(sObjectType)
 		for id := range ids {
-			set.AddId(id)
+			set.AddID(id)
 		}
 	}
 }

@@ -10,8 +10,8 @@ type SalesforceClientConfig struct {
 }
 
 type SalesforceClientConfigGeneral struct {
-	ApiFqdn           string
-	ApiVersion        string
+	APIFqdn           string
+	APIVersion        string
 	DataDir           string
 	MaxAgeSec         int64
 	FlagDisableRemote bool
@@ -20,21 +20,21 @@ type SalesforceClientConfigGeneral struct {
 }
 
 type SalesforceClientConfigToken struct {
-	TokenUrl     string
+	TokenURL     string
 	GrantType    string
-	ClientId     string
+	ClientID     string
 	ClientSecret string
 	Username     string
 	Password     string
-	UrlValues    url.Values
+	URLValues    url.Values
 }
 
 func (ct *SalesforceClientConfigToken) Inflate() {
 	vals := url.Values{}
 	vals.Add("grant_type", ct.GrantType)
-	vals.Add("client_id", ct.ClientId)
+	vals.Add("client_id", ct.ClientID)
 	vals.Add("client_secret", ct.ClientSecret)
 	vals.Add("username", ct.Username)
 	vals.Add("password", ct.Password)
-	ct.UrlValues = vals
+	ct.URLValues = vals
 }

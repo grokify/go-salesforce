@@ -70,11 +70,11 @@ func (set *ContactSet) ReadJSONFilesFromDir(dir string) error {
 func (set *ContactSet) Inflate() {
 	for _, record := range set.Records {
 		if len(record.ID) > 0 {
-			set.IDSet.AddId(record.ID)
+			set.IDSet.AddID(record.ID)
 			set.RecordsMap[record.ID] = record
 		}
 		if len(record.AccountID) > 0 {
-			set.IDSet.AddId(record.AccountID)
+			set.IDSet.AddID(record.AccountID)
 		}
 	}
 }

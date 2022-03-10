@@ -41,14 +41,14 @@ func NewCampaignMemberSetFromXMLFile(filepath string) (CampaignMemberSet, error)
 func (set *CampaignMemberSet) Inflate() {
 	for _, record := range set.Records {
 		if len(record.ID) > 0 {
-			set.IDSet.AddId(record.ID)
+			set.IDSet.AddID(record.ID)
 			set.RecordsMap[record.ID] = record
 		}
 		if len(record.ContactID) > 0 {
-			set.IDSet.AddId(record.ContactID)
+			set.IDSet.AddID(record.ContactID)
 		}
 		if len(record.LeadID) > 0 {
-			set.IDSet.AddId(record.LeadID)
+			set.IDSet.AddID(record.LeadID)
 		}
 	}
 }

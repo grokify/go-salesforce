@@ -33,15 +33,15 @@ func (types *SObjectsInfo) GetID15ForID(id string) (string, error) {
 	return "", errors.New("sfdc id 15 not found")
 }
 
-func (types *SObjectsInfo) GetTypeForId(id string) (string, error) {
-	prefix, err := types.GetPrefixForId(id)
+func (types *SObjectsInfo) GetTypeForID(id string) (string, error) {
+	prefix, err := types.GetPrefixForID(id)
 	if err != nil {
 		return "", err
 	}
 	return types.GetTypeForPrefix(prefix)
 }
 
-func (types *SObjectsInfo) GetPrefixForId(id string) (string, error) {
+func (types *SObjectsInfo) GetPrefixForID(id string) (string, error) {
 	if len(id) < 3 {
 		return "", errors.New("sfdc id not provided")
 	}

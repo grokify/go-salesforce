@@ -29,7 +29,7 @@ func main() {
 	req := apex.ApexEmailRequestOpts{
 		EmailInfos:            emailsData,
 		SubjectTemplate:       "My Demo Subject",
-		BodyTemplate:          apex.MarkdownToApexEmailHtml(bodyBytesMd),
+		BodyTemplate:          apex.MarkdownToApexEmailHTML(bodyBytesMd),
 		ReplyToEmail:          "sender@example.com",
 		ReplyToName:           "Example Sender User",
 		RecipientPriorityType: apex.ContactPriorityEmail}

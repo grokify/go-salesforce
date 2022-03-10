@@ -45,7 +45,7 @@ const (
 	To_             = "to_"
 	Cc_             = "cc_"
 	Bcc_            = "bcc_"
-	TargetObjectId_ = "targetobjectid_"
+	TargetObjectID_ = "targetobjectid_"
 	Sep             = ";"
 )
 
@@ -55,7 +55,7 @@ func EscapeSingleQuote(s string) string {
 	return rxEscapeSingleQuote.ReplaceAllString(s, "${1}\\'")
 }
 
-func MarkdownToApexEmailHtml(bytes []byte) string {
+func MarkdownToApexEmailHTML(bytes []byte) string {
 	return StringToApexStringSimple(string(blackfriday.Run(bytes)))
 }
 
@@ -114,7 +114,7 @@ func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[strin
 	data[Cc_] = mergeContacts(mu.MapSSValOrEmpty(data, Cc_), email.Cc, emailPriorityType, Sep)
 	data[Bcc_] = mergeContacts(mu.MapSSValOrEmpty(data, Bcc_), email.Bcc, emailPriorityType, Sep)
 	if len(data[To_]) > 0 && !strings.Contains(data[To_], "@") && !strings.Contains(data[To_], Sep) {
-		data[TargetObjectId_] = data[To_]
+		data[TargetObjectID_] = data[To_]
 		data[To_] = ""
 	}
 	return data

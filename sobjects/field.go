@@ -15,7 +15,7 @@ type FieldDefinition struct {
 	Digits              int    `json:"digits,omitempty"`
 	Filterable          bool   `json:"filterable,omitempty"`
 	Groupable           bool   `json:"groupable,omitempty"`
-	IdLookup            bool   `json:"idLookup,omitempty"`
+	IDLookup            bool   `json:"idLookup,omitempty"`
 	Label               string `json:"label,omitempty"`
 	Length              int    `json:"length,omitempty"`
 	Name                string `json:"name,omitempty"`
