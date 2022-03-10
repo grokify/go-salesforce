@@ -20,21 +20,18 @@ func NewFsdbPathUtil(baseDir string) FsdbPathUtil {
 	return fsdb
 }
 
-func (fsdb *FsdbPathUtil) GetPathForId(id string, source string, format string) (string, error) {
-	dir, err := fsdb.GetDirForId(id, source, format)
+func (fsdb *FsdbPathUtil) GetPathForID(id string, source string, format string) (string, error) {
+	dir, err := fsdb.GetDirForID(id, source, format)
 	if err != nil {
 		return "", err
 	}
-	filename, err := fsdb.GetFileForId(id, format)
-	if err != nil {
-		return "", err
-	}
+	filename := fsdb.GetFileForID(id, format)
 	filepath := path.Join(dir, filename)
 	return filepath, nil
 }
 
-func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format string) (string, error) {
-	path1, err := fsdb.GetPathForId(id, source, format)
+func (fsdb *FsdbPathUtil) GetValidPathForID(id string, source string, format string) (string, error) {
+	path1, err := fsdb.GetPathForID(id, source, format)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +47,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 		if err != nil {
 			return "", err
 		}
-		path2, err := fsdb.GetPathForId(id15, source, format)
+		path2, err := fsdb.GetPathForID(id15, source, format)
 		if err != nil {
 			return "", err
 		}
@@ -65,12 +62,11 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 	return "", errors.New("cannot find valid path for sfdc id")
 }
 
-func (fsdb *FsdbPathUtil) GetFileForId(id string, format string) (string, error) {
-	filename := "sfid_" + id + "." + strings.ToLower(format)
-	return filename, nil
+func (fsdb *FsdbPathUtil) GetFileForID(id string, format string) string {
+	return "sfid_" + id + "." + strings.ToLower(format)
 }
 
-func (fsdb *FsdbPathUtil) GetDirForId(id string, source string, format string) (string, error) {
+func (fsdb *FsdbPathUtil) GetDirForID(id string, source string, format string) (string, error) {
 	parts := []string{fsdb.BaseDir}
 	// Add SObject Desc
 	sobjectDesc, err := fsdb.SObjectsInfo.GetTypeForID(id)

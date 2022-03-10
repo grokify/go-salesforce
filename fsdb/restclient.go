@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/grokify/mogo/net/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 )
 
@@ -20,7 +21,7 @@ type SalesforceTokenResponse struct {
 
 type RestClient struct {
 	Config        SalesforceClientConfig
-	HttpHeaders   map[string]string
+	HTTPHeaders   map[string]string
 	TokenResponse SalesforceTokenResponse
 }
 
@@ -29,7 +30,7 @@ func NewRestClient(cfg SalesforceClientConfig) RestClient {
 	cfg.ConfigToken.Inflate()
 	cl.Config = cfg
 	cl.TokenResponse = SalesforceTokenResponse{}
-	cl.HttpHeaders = map[string]string{}
+	cl.HTTPHeaders = map[string]string{}
 	return cl
 }
 
@@ -59,22 +60,21 @@ func (cl *RestClient) LoadToken() error {
 	return nil
 }
 
-func (cl *RestClient) GetSobjectUrlForSfidAndType(sSfid string, sType string) string {
-	aUrl := []string{"https:/",
+func (cl *RestClient) GetSobjectURLForSfidAndType(sSfid string, sType string) string {
+	aURL := []string{"https:/",
 		cl.Config.ConfigGeneral.APIFqdn,
 		"services/data",
 		"v" + cl.Config.ConfigGeneral.APIVersion,
 		"sobjects",
 		sType,
 		sSfid}
-	sUrl := strings.Join(aUrl, "/")
-	return sUrl
+	return strings.Join(aURL, "/")
 }
 
 func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType string) (*http.Response, error) {
-	sUrl := cl.GetSobjectUrlForSfidAndType(sSfid, sType)
+	sUrl := cl.GetSobjectURLForSfidAndType(sSfid, sType)
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", sUrl, nil)
+	req, err := http.NewRequest(http.MethodGet, sUrl, nil)
 	if err != nil {
 		return &http.Response{}, err
 	}
@@ -82,9 +82,8 @@ func (cl *RestClient) GetSobjectResponseForSfidAndType(sSfid string, sType strin
 	if err != nil {
 		return &http.Response{}, err
 	}
-	req.Header.Add("Authorization", "Bearer "+accessToken)
-	res, err := client.Do(req)
-	return res, err
+	req.Header.Add(httputilmore.HeaderAuthorization, "Bearer "+accessToken)
+	return client.Do(req)
 }
 
 func (cl *RestClient) GetSoqlResponse(sSoql string) (string, error) {
