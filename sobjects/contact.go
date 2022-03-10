@@ -14,32 +14,32 @@ import (
 )
 
 type ContactSet struct {
-	IdSet      IdSet              `xml:"-"`
+	IdSet      IDSet              `xml:"-"`
 	Records    []Contact          `json:"records,omitempty" xml:"records"`
 	RecordsMap map[string]Contact `xml:"-"`
 }
 
 func NewContactSet() ContactSet {
 	set := ContactSet{
-		IdSet:      NewIdSet(),
+		IdSet:      NewIDSet(),
 		Records:    []Contact{},
 		RecordsMap: map[string]Contact{}}
 	return set
 }
 
-func NewContactSetSetFromXml(bytes []byte) (ContactSet, error) {
-	set := ContactSet{IdSet: NewIdSet()}
+func NewContactSetSetFromXML(bytes []byte) (ContactSet, error) {
+	set := ContactSet{IdSet: NewIDSet()}
 	err := xml.Unmarshal(bytes, &set)
 	set.Inflate()
 	return set, err
 }
 
-func NewContactSetFromXmlFile(filepath string) (ContactSet, error) {
+func NewContactSetFromXMLFile(filepath string) (ContactSet, error) {
 	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return ContactSet{}, err
 	}
-	return NewContactSetSetFromXml(bytes)
+	return NewContactSetSetFromXML(bytes)
 }
 
 func NewContactSetFromJSONResponse(resp *http.Response) (ContactSet, error) {

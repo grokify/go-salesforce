@@ -7,14 +7,14 @@ import (
 )
 
 type CampaignMemberSet struct {
-	IdSet      IdSet                     `xml:"-"`
+	IDSet      IDSet                     `xml:"-"`
 	Records    []CampaignMember          `xml:"records"`
 	RecordsMap map[string]CampaignMember `xml:"-"`
 }
 
 func NewCampaignMemberSet() CampaignMemberSet {
 	set := CampaignMemberSet{
-		IdSet:      NewIdSet(),
+		IDSet:      NewIDSet(),
 		Records:    []CampaignMember{},
 		RecordsMap: map[string]CampaignMember{}}
 	return set
@@ -41,14 +41,14 @@ func NewCampaignMemberSetFromXMLFile(filepath string) (CampaignMemberSet, error)
 func (set *CampaignMemberSet) Inflate() {
 	for _, record := range set.Records {
 		if len(record.ID) > 0 {
-			set.IdSet.AddId(record.ID)
+			set.IDSet.AddId(record.ID)
 			set.RecordsMap[record.ID] = record
 		}
 		if len(record.ContactID) > 0 {
-			set.IdSet.AddId(record.ContactID)
+			set.IDSet.AddId(record.ContactID)
 		}
 		if len(record.LeadID) > 0 {
-			set.IdSet.AddId(record.LeadID)
+			set.IDSet.AddId(record.LeadID)
 		}
 	}
 }
@@ -66,16 +66,16 @@ type CampaignMember struct {
 	Status             string
 }
 
-func NewCampaignMemberFromJson(bytes []byte) (CampaignMember, error) {
+func NewCampaignMemberFromJSON(bytes []byte) (CampaignMember, error) {
 	obj := CampaignMember{}
 	err := json.Unmarshal(bytes, &obj)
 	return obj, err
 }
 
-func NewCampaignMemberFromJsonFile(filepath string) (CampaignMember, error) {
+func NewCampaignMemberFromJSONFile(filepath string) (CampaignMember, error) {
 	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return CampaignMember{}, err
 	}
-	return NewCampaignMemberFromJson(bytes)
+	return NewCampaignMemberFromJSON(bytes)
 }

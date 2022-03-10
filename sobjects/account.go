@@ -13,7 +13,7 @@ type Account struct {
 }
 
 type AccountSet struct {
-	IdSet   IdSet     `xml:"-"`
+	IDSet   IDSet     `xml:"-"`
 	Records []Account `json:"records,omitempty" xml:"records"`
 }
 

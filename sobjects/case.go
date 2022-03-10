@@ -7,12 +7,12 @@ type Case struct {
 	Origin          string
 	Reason          string
 	Status          string
-	OwnerId         string
+	OwnerID         string
 	Subject         string
-	ParentId        string
+	ParentID        string
 	Priority        string
-	AccountId       string
-	ContactId       string
+	AccountID       string
+	ContactID       string
 	Description     string
 	IsEscalated     bool
 	SuppliedName    string

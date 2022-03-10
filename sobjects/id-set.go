@@ -4,21 +4,21 @@ import (
 	"strings"
 )
 
-type IdSet struct {
+type IDSet struct {
 	SObjectsInfo SObjectsInfo `json:"-"`
 	IdMap        map[string]int
 	IdMapByType  map[string]map[string]int
 }
 
-func NewIdSet() IdSet {
-	set := IdSet{
+func NewIDSet() IDSet {
+	set := IDSet{
 		SObjectsInfo: NewSObjectsInfo(),
 		IdMap:        map[string]int{},
 		IdMapByType:  map[string]map[string]int{}}
 	return set
 }
 
-func (set *IdSet) AddId(id string) {
+func (set *IDSet) AddId(id string) {
 	if len(id) < 1 {
 		return
 	}
@@ -34,7 +34,7 @@ func (set *IdSet) AddId(id string) {
 	set.IdMapByType[desc][id]++
 }
 
-func (set *IdSet) GetIdsByType(sobjectType string) map[string]int {
+func (set *IDSet) GetIdsByType(sobjectType string) map[string]int {
 	sobjectType = strings.ToUpper(sobjectType)
 	if ids, ok := set.IdMapByType[sobjectType]; ok {
 		return ids
@@ -43,13 +43,13 @@ func (set *IdSet) GetIdsByType(sobjectType string) map[string]int {
 	}
 }
 
-func (set *IdSet) Merge(newSet IdSet) {
+func (set *IDSet) Merge(newSet IDSet) {
 	for id := range newSet.IdMap {
 		set.AddId(id)
 	}
 }
 
-func (set *IdSet) MergeTypes(newSet IdSet, types []string) {
+func (set *IDSet) MergeTypes(newSet IDSet, types []string) {
 	for _, sObjectType := range types {
 		ids := newSet.GetIdsByType(sObjectType)
 		for id := range ids {
@@ -59,20 +59,20 @@ func (set *IdSet) MergeTypes(newSet IdSet, types []string) {
 }
 
 type IdSetMulti struct {
-	Sets map[string]IdSet
+	Sets map[string]IDSet
 }
 
 func NewIdSetMulti() IdSetMulti {
-	sets := IdSetMulti{Sets: map[string]IdSet{}}
+	sets := IdSetMulti{Sets: map[string]IDSet{}}
 	return sets
 }
 
-func (sets *IdSetMulti) MergeTypes(setName string, newSet IdSet, types []string) {
+func (sets *IdSetMulti) MergeTypes(setName string, newSet IDSet, types []string) {
 	if len(setName) < 1 {
 		return
 	}
 	if _, ok := sets.Sets[setName]; !ok {
-		sets.Sets[setName] = NewIdSet()
+		sets.Sets[setName] = NewIDSet()
 	}
 	set := sets.Sets[setName]
 	set.MergeTypes(newSet, types)

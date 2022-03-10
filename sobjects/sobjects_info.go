@@ -30,7 +30,7 @@ func (types *SObjectsInfo) GetId15ForId(id string) (string, error) {
 			return rs15[1], nil
 		}
 	}
-	return "", errors.New("Sfdc Id 15 not found")
+	return "", errors.New("sfdc id 15 not found")
 }
 
 func (types *SObjectsInfo) GetTypeForId(id string) (string, error) {
@@ -43,20 +43,20 @@ func (types *SObjectsInfo) GetTypeForId(id string) (string, error) {
 
 func (types *SObjectsInfo) GetPrefixForId(id string) (string, error) {
 	if len(id) < 3 {
-		return "", errors.New("Sfdc id not provided")
+		return "", errors.New("sfdc id not provided")
 	}
 	rs3 := types.rxChar3.FindStringSubmatch(id)
 	if len(rs3) > 0 {
 		return rs3[1], nil
 	}
-	return "", errors.New("SObject prefix not found in id")
+	return "", errors.New("sobject prefix not found in id")
 }
 
 func (types *SObjectsInfo) GetTypeForPrefix(prefix string) (string, error) {
 	if sobjectType, ok := types.Prefix2Type[prefix]; ok {
 		return sobjectType, nil
 	}
-	return "", errors.New("SObject type not found for prefix")
+	return "", errors.New("sobject type not found for prefix")
 }
 
 func (types *SObjectsInfo) GetPrefixForType(sobjectType string) (string, error) {
@@ -64,7 +64,7 @@ func (types *SObjectsInfo) GetPrefixForType(sobjectType string) (string, error) 
 	if prefix, ok := types.Type2Prefix[sobjectType]; ok {
 		return prefix, nil
 	}
-	return "", errors.New("SObject prefix not found for type")
+	return "", errors.New("sobject prefix not found for type")
 }
 
 func (types *SObjectsInfo) loadMaps() {
