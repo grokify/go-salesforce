@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -81,7 +82,7 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromLocal(sSfidTry string, sType s
 }
 
 func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType string) (SobjectFsdb, error) {
-	if fc.Config.ConfigGeneral.FlagDisableRemote == true {
+	if fc.Config.ConfigGeneral.FlagDisableRemote {
 		err := errors.New("404 File Not Found")
 		return NewSobjectFsdb(), err
 	}
@@ -89,21 +90,36 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType 
 	if err != nil {
 		return NewSobjectFsdb(), err
 	}
-	sobTry := NewSobjectFsdbForResponse(resTry)
+	sobTry, err := NewSobjectFsdbForResponse(resTry)
+	if err != nil {
+		return NewSobjectFsdb(), err
+	}
 
 	if resTry.StatusCode == 404 && sType == "Account" {
 		resOpp, err := fc.RestClient.GetSobjectResponseForSfidAndType(sSfidTry, "Opportunity")
 		if err == nil {
-			sobOpp := NewSobjectFsdbForResponse(resOpp)
-			fc.WriteSobjectFsdb(sSfidTry, "Opportunity", sobOpp)
+			sobOpp, err := NewSobjectFsdbForResponse(resOpp)
+			if err != nil {
+				return sobTry, err
+			}
+			err = fc.WriteSobjectFsdb(sSfidTry, "Opportunity", sobOpp)
+			if err != nil {
+				return sobTry, err
+			}
 			sSfidAct := fmt.Sprintf("%s", sobOpp.Data["AccountId"])
 			if len(sSfidAct) > 0 {
 				resAct, err := fc.RestClient.GetSobjectResponseForSfidAndType(sSfidAct, "Account")
 				if err != nil {
 					return sobTry, err
 				}
-				sobAct := NewSobjectFsdbForResponse(resAct)
-				fc.WriteSobjectFsdb(sSfidAct, "Account", sobAct)
+				sobAct, err := NewSobjectFsdbForResponse(resAct)
+				if err != nil {
+					return sobTry, err
+				}
+				err = fc.WriteSobjectFsdb(sSfidAct, "Account", sobAct)
+				if err != nil {
+					return sobTry, err
+				}
 				sobjAct301 := NewSobjectFsdb()
 				sobjAct301.SetEpochRetrievedSource()
 				sobjAct301.Meta.HttpStatusCodeI32 = int32(301)
@@ -122,7 +138,7 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType 
 }
 
 func (fc *FsdbClient) WriteSobjectFsdb(sSfid string, sType string, sobjectFsdb SobjectFsdb) error {
-	if fc.Config.ConfigGeneral.FlagSaveFs == false {
+	if !fc.Config.ConfigGeneral.FlagSaveFs {
 		return nil
 	}
 	j, err := json.MarshalIndent(sobjectFsdb, "", "  ")
@@ -133,7 +149,7 @@ func (fc *FsdbClient) WriteSobjectFsdb(sSfid string, sType string, sobjectFsdb S
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(sPath, j, 0755)
+	err = ioutil.WriteFile(sPath, j, 0600)
 	if err != nil {
 		return err
 	}
@@ -152,10 +168,10 @@ func NewSobjectFsdb() SobjectFsdb {
 	return sobjectFsdb
 }
 
-func NewSobjectFsdbForResponse(res *http.Response) SobjectFsdb {
+func NewSobjectFsdbForResponse(res *http.Response) (SobjectFsdb, error) {
 	sobjectFsdb := NewSobjectFsdb()
-	sobjectFsdb.LoadResponse(res)
-	return sobjectFsdb
+	err := sobjectFsdb.LoadResponse(res)
+	return sobjectFsdb, err
 }
 
 type SobjectFsdbMeta struct {
@@ -170,12 +186,15 @@ func (so *SobjectFsdb) SetEpochRetrievedSource() {
 }
 
 func (so *SobjectFsdb) LoadResponse(res *http.Response) error {
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}
 	msi := map[string]interface{}{}
-	json.Unmarshal(body, &msi)
+	err = json.Unmarshal(body, &msi)
+	if err != nil {
+		return err
+	}
 	so.Data = msi
 	now := time.Now()
 	so.Meta.EpochRetrievedSourceI64 = now.Unix()

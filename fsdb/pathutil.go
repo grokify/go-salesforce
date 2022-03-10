@@ -42,7 +42,7 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 	if err != nil {
 		return "", err
 	}
-	if ok == true {
+	if ok {
 		return path1, nil
 	}
 	if len(id) == 18 {
@@ -58,11 +58,11 @@ func (fsdb *FsdbPathUtil) GetValidPathForId(id string, source string, format str
 		if err != nil {
 			return "", err
 		}
-		if ok2 == true {
+		if ok2 {
 			return path2, nil
 		}
 	}
-	return "", errors.New("Cannot find valid path for Sfdc Id")
+	return "", errors.New("cannot find valid path for Sfdc Id")
 }
 
 func (fsdb *FsdbPathUtil) GetFileForId(id string, format string) (string, error) {
@@ -83,12 +83,12 @@ func (fsdb *FsdbPathUtil) GetDirForId(id string, source string, format string) (
 	if len(source) > 0 {
 		parts = append(parts, strings.ToUpper(source))
 	} else {
-		return "", errors.New("No SFDC Source Provided")
+		return "", errors.New("no SFDC source provided")
 	}
 	if len(format) > 0 {
 		parts = append(parts, strings.ToUpper(format))
 	} else {
-		return "", errors.New("No SObject Format Provided")
+		return "", errors.New("no SObject format provided")
 	}
 	dir := path.Join(parts...)
 	return dir, nil
