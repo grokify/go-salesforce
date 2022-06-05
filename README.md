@@ -12,7 +12,7 @@ This package provides a number of Salesforce helpers in Go:
 * `sobjects` provides basic structs for Salesforce.
 * `workbench` provies a basic XML reader for https://workbench.developerforce.com
 
-For OAuth 2.0 helpers for the Salesforce API, see [`oauth2more/salesforce`](https://github.com/grokify/oauth2more/tree/master/salesforce).
+For OAuth 2.0 helpers for the Salesforce API, see [`goauth/salesforce`](https://github.com/grokify/goauth/tree/master/salesforce).
 
 ## Reference Files
 
