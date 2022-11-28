@@ -6,7 +6,7 @@ import (
 
 	"github.com/grokify/go-salesforce/sobjects"
 	mu "github.com/grokify/mogo/type/maputil"
-	"github.com/russross/blackfriday/v2"
+	blackfriday "github.com/russross/blackfriday/v2"
 )
 
 type EmailPriorityType int
