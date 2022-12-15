@@ -110,9 +110,9 @@ func mergeContacts(raw string, contacts []sobjects.Contact, emailPriorityType Em
 
 func (email *ApexEmailInfo) ToMap(emailPriorityType EmailPriorityType) map[string]string {
 	data := email.Data
-	data[To_] = mergeContacts(mu.MapSSValOrEmpty(data, To_), email.To, emailPriorityType, Sep)
-	data[Cc_] = mergeContacts(mu.MapSSValOrEmpty(data, Cc_), email.Cc, emailPriorityType, Sep)
-	data[Bcc_] = mergeContacts(mu.MapSSValOrEmpty(data, Bcc_), email.Bcc, emailPriorityType, Sep)
+	data[To_] = mergeContacts(mu.StringValueOrDefault(data, To_, ""), email.To, emailPriorityType, Sep)
+	data[Cc_] = mergeContacts(mu.StringValueOrDefault(data, Cc_, ""), email.Cc, emailPriorityType, Sep)
+	data[Bcc_] = mergeContacts(mu.StringValueOrDefault(data, Bcc_, ""), email.Bcc, emailPriorityType, Sep)
 	if len(data[To_]) > 0 && !strings.Contains(data[To_], "@") && !strings.Contains(data[To_], Sep) {
 		data[TargetObjectID_] = data[To_]
 		data[To_] = ""
