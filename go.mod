@@ -3,7 +3,7 @@ module github.com/grokify/go-salesforce
 go 1.18
 
 require (
-	github.com/grokify/mogo v0.49.1
+	github.com/grokify/mogo v0.50.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.7.0
 	golang.org/x/net v0.10.0
@@ -23,4 +23,4 @@ require (
 	gopkg.in/oleiade/reflections.v1 v1.0.0 // indirect
 )
 
-// replace github.com/grokify/mogo v0.45.0 => ../mogo
+// replace github.com/grokify/mogo v0.50.0 => ../mogo
