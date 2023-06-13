@@ -57,7 +57,7 @@ func (set *ContactSet) ReadJSONFilesFromDir(dir string) error {
 	if err != nil {
 		return err
 	}
-	filepaths := osutil.DirEntries(entries).Names(dir)
+	filepaths := entries.Names(dir)
 	for _, filepath := range filepaths {
 		contact, err := NewContactFromJSONFile(filepath)
 		if err == nil && len(contact.ID) > 0 {
