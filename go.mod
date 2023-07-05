@@ -6,7 +6,7 @@ require (
 	github.com/grokify/mogo v0.50.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.7.0
-	golang.org/x/net v0.11.0
+	golang.org/x/net v0.12.0
 )
 
 require (
@@ -19,7 +19,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
 	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 // indirect
-	golang.org/x/text v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 	gopkg.in/oleiade/reflections.v1 v1.0.0 // indirect
 )
 
