@@ -6,7 +6,7 @@ require (
 	github.com/grokify/mogo v0.55.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.7.0
-	golang.org/x/net v0.14.0
+	golang.org/x/net v0.15.0
 )
 
 require (
