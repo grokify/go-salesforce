@@ -8,7 +8,7 @@ require (
 	github.com/grokify/mogo v0.61.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.7.0
-	golang.org/x/net v0.18.0
+	golang.org/x/net v0.19.0
 )
 
 require (
