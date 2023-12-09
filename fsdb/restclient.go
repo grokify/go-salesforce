@@ -94,7 +94,7 @@ func (cl *RestClient) GetSoqlResponse(sSoql string) (string, error) {
 		"v" + cl.Config.ConfigGeneral.APIVersion,
 		"query"}
 	soqlURL := strings.Join(soqlURLSlice, "/")
-	soqlURLGo, err := urlutil.URLAddQueryString(soqlURL, dQry)
+	soqlURLGo, err := urlutil.URLStringAddQuery(soqlURL, dQry, false)
 	if err != nil {
 		return soqlURL, err
 	}
