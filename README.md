@@ -41,7 +41,7 @@ https://salesforcedx-vscode.netlify.app/tools/vscode/en/getting-started/install
 
 Features, Issues, and Pull Requests are always welcome.
 
- [build-status-svg]: https://github.com/grokify/go-salesforce/workflows/test/badge.svg?branch=master
+ [build-status-svg]: https://github.com/grokify/go-salesforce/workflows/test/badge.svg
  [build-status-url]: https://github.com/grokify/go-salesforce/actions
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/go-salesforce
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/go-salesforce
