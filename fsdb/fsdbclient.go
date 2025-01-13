@@ -44,7 +44,7 @@ func (fc *FsdbClient) GetDirForType(sType string) (string, error) {
 func (fc *FsdbClient) GetSobjectForSfidAndType(sSfidTry string, sType string) (SobjectFsdb, error) {
 	sobTry, err := fc.GetSobjectForSfidAndTypeFromLocal(sSfidTry, sType)
 	if err == nil {
-		if sobTry.Meta.HTTPStatusCodeI32 == int32(200) && sobTry.Meta.EpochRetrievedSourceI64 > 0 {
+		if sobTry.Meta.HTTPStatusCode == 200 && sobTry.Meta.EpochRetrievedSourceI64 > 0 {
 			now := time.Now()
 			iEpochNow := now.Unix()
 			diff := iEpochNow - sobTry.Meta.EpochRetrievedSourceI64
@@ -71,7 +71,7 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromLocal(sSfidTry string, sType s
 		return sobTry, err
 	}
 	err = json.Unmarshal(abData, &sobTry)
-	if err == nil && sobTry.Meta.HTTPStatusCodeI32 == int32(301) && len(sobTry.Meta.RedirectSfidS) > 0 {
+	if err == nil && sobTry.Meta.HTTPStatusCode == 301 && len(sobTry.Meta.RedirectSfidS) > 0 {
 		sobTry2, err := fc.GetSobjectForSfidAndTypeFromLocal(sobTry.Meta.RedirectSfidS, sType)
 		if err == nil {
 			return sobTry2, nil
@@ -121,7 +121,7 @@ func (fc *FsdbClient) GetSobjectForSfidAndTypeFromRemote(sSfidTry string, sType 
 				}
 				sobjAct301 := NewSobjectFsdb()
 				sobjAct301.SetEpochRetrievedSource()
-				sobjAct301.Meta.HTTPStatusCodeI32 = int32(301)
+				sobjAct301.Meta.HTTPStatusCode = 301
 				sobjAct301.Meta.RedirectSfidS = sSfidAct
 				err = fc.WriteSobjectFsdb(sSfidTry, "Account", sobjAct301)
 				return sobAct, err
@@ -163,7 +163,7 @@ type SobjectFsdb struct {
 func NewSobjectFsdb() SobjectFsdb {
 	sobjectFsdb := SobjectFsdb{Data: map[string]interface{}{}, Meta: SobjectFsdbMeta{}}
 	sobjectFsdb.Meta.EpochRetrievedSourceI64 = int64(0)
-	sobjectFsdb.Meta.HTTPStatusCodeI32 = int32(0)
+	sobjectFsdb.Meta.HTTPStatusCode = 0
 	return sobjectFsdb
 }
 
@@ -175,7 +175,7 @@ func NewSobjectFsdbForResponse(res *http.Response) (SobjectFsdb, error) {
 
 type SobjectFsdbMeta struct {
 	EpochRetrievedSourceI64 int64
-	HTTPStatusCodeI32       int32
+	HTTPStatusCode          int
 	RedirectSfidS           string
 }
 
@@ -197,6 +197,6 @@ func (so *SobjectFsdb) LoadResponse(res *http.Response) error {
 	so.Data = msi
 	now := time.Now()
 	so.Meta.EpochRetrievedSourceI64 = now.Unix()
-	so.Meta.HTTPStatusCodeI32 = int32(res.StatusCode)
+	so.Meta.HTTPStatusCode = res.StatusCode
 	return nil
 }
