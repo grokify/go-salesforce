@@ -3,7 +3,7 @@ module github.com/grokify/go-salesforce
 go 1.23.2
 
 require (
-	github.com/grokify/mogo v0.67.5
+	github.com/grokify/mogo v0.67.6
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.8.0
 	golang.org/x/net v0.34.0
