@@ -42,9 +42,9 @@ https://salesforcedx-vscode.netlify.app/tools/vscode/en/getting-started/install
 
 Features, Issues, and Pull Requests are always welcome.
 
- [build-status-svg]: https://github.com/grokify/go-salesforce/workflows/test/badge.svg
- [build-status-url]: https://github.com/grokify/go-salesforce/actions/workflows/test.yaml
- [lint-status-svg]: https://github.com/grokify/go-salesforce/workflows/lint/badge.svg
+ [build-status-svg]: https://github.com/grokify/go-salesforce/actions/workflows/ci.yaml/badge.svg?branch=master
+ [build-status-url]: https://github.com/grokify/go-salesforce/actions/workflows/ci.yaml
+ [lint-status-svg]: https://github.com/grokify/go-salesforce/actions/workflows/lint.yaml/badge.svg?branch=master
  [lint-status-url]: https://github.com/grokify/go-salesforce/actions/workflows/lint.yaml
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/go-salesforce
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/go-salesforce
