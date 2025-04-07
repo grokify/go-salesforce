@@ -38,7 +38,7 @@ func main() {
 
 	fmt.Println(apexCode)
 
-	err = os.WriteFile(outputApexFile, []byte(apexCode), 0644)
+	err = os.WriteFile(outputApexFile, []byte(apexCode), 0600)
 	if err != nil {
 		log.Fatal(err)
 	}

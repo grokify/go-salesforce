@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"os"
 
 	"golang.org/x/net/html"
@@ -29,38 +29,42 @@ func getBody(doc *html.Node) (*html.Node, error) {
 	if b != nil {
 		return b, nil
 	}
-	return nil, errors.New("Missing <body> in the node tree")
+	return nil, errors.New("missing <body> in the node tree")
 }
 
-func renderNode(n *html.Node) string {
+func renderNode(n *html.Node) (string, error) {
 	var buf bytes.Buffer
 	w := io.Writer(&buf)
-	html.Render(w, n)
-	return buf.String()
+	if err := html.Render(w, n); err != nil {
+		return "", err
+	} else {
+		return buf.String(), nil
+	}
 }
 
-func buildObjects() {
+func buildObjects() error {
 	filename := "_parse_object_fields_workbench.html"
 	r, err := os.Open(filename)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	if 1 == 0 {
 		doc, err := html.Parse(r)
 		if err != nil {
-			log.Fatal(err)
-			fmt.Println("ERR")
+			return err
 		}
-		fmt.Printf("%v\n", doc)
-		fmt.Println("SUC")
+		slog.Info("success_on_parse", "doc", fmt.Sprintf("%v", doc))
 
 		bn, err := getBody(doc)
 		if err != nil {
-			return
+			return err
 		}
-		body := renderNode(bn)
-		fmt.Println(body)
+		body, err := renderNode(bn)
+		if err != nil {
+			return err
+		}
+		slog.Info("success_on_render", "body", body)
 	}
 
 	if 1 == 0 {
@@ -75,9 +79,15 @@ func buildObjects() {
 			// Process the current token.
 		}
 	}
+	return nil
 }
 
 func main() {
-	buildObjects()
+	err := buildObjects()
+	if err != nil {
+		slog.Error(err.Error())
+		os.Exit(1)
+	}
 	fmt.Println("DONE")
+	os.Exit(0)
 }
