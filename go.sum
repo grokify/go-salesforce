@@ -1,8 +1,8 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
-github.com/grokify/mogo v0.70.13 h1:JSJ9wmQcWPoaobMFDG1IDHN1QxSIP5+2ef56uitlMek=
-github.com/grokify/mogo v0.70.13/go.mod h1:QjS8z1s0fMwCMxJkODUhq5NHFjHZiZNf4E5TUIfz4+w=
+github.com/grokify/mogo v0.70.15 h1:v9pNiSnvrschGFPgqcU3TZpgSjWBOqSdTS9z2XvSyqM=
+github.com/grokify/mogo v0.70.15/go.mod h1:VIO/CycVjfvZAMwx6bQMI490nV5EPkSS2H9AjKfq27Y=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnrnM=
