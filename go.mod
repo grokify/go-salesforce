@@ -1,14 +1,14 @@
 module github.com/grokify/go-salesforce
 
-go 1.23.2
+go 1.24.0
 
-toolchain go1.24.1
+toolchain go1.24.5
 
 require (
-	github.com/grokify/mogo v0.70.15
+	github.com/grokify/mogo v0.70.18
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.8.0
-	golang.org/x/net v0.42.0
+	golang.org/x/net v0.43.0
 )
 
 require (
@@ -17,6 +17,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792 // indirect
-	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
+	golang.org/x/text v0.28.0 // indirect
 )
