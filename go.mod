@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.5
 
 require (
-	github.com/grokify/mogo v0.70.18
+	github.com/grokify/mogo v0.70.21
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.8.0
 	golang.org/x/net v0.43.0
