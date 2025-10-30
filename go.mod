@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.5
 
 require (
-	github.com/grokify/mogo v0.71.2
+	github.com/grokify/mogo v0.71.7
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.8.0
 	golang.org/x/net v0.46.0
@@ -17,6 +17,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	golang.org/x/exp v0.0.0-20251009144603-d2f985daa21b // indirect
+	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546 // indirect
 	golang.org/x/text v0.30.0 // indirect
 )
