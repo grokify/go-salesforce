@@ -8,7 +8,7 @@ require (
 	github.com/grokify/mogo v0.72.7
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/valyala/quicktemplate v1.8.0
-	golang.org/x/net v0.49.0
+	golang.org/x/net v0.50.0
 )
 
 require (
@@ -18,5 +18,5 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96 // indirect
-	golang.org/x/text v0.33.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
 )
